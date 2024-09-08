@@ -112,39 +112,50 @@ main {
 }
 
 #portion-control {
-    margin: 2rem 0;
+    margin-bottom: 20px;
+}
+
+#portion-sliders {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .portion-slider {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
+    width: calc(50% - 5px);
+    /* Due slider per riga */
 }
 
 .portion-slider label {
-    flex: 1;
-    font-weight: 600;
+    flex: 0 0 100px;
 }
 
 .portion-slider input {
-    flex: 2;
-    margin: 0 1rem;
-    -webkit-appearance: none;
-    width: 100%;
-    height: 8px;
-    border-radius: 5px;
-    background: #d3d3d3;
-    outline: none;
+    flex: 1;
 }
 
-.portion-slider input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    cursor: pointer;
+.portion-slider span {
+    flex: 0 0 50px;
+    text-align: right;
+}
+
+#nutrition-summary table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#nutrition-summary th,
+#nutrition-summary td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#nutrition-summary th {
+    background-color: #f2f2f2;
 }
 
 .slider-container {
@@ -312,4 +323,60 @@ footer {
     font-size: 1.1em;
     line-height: 1.6;
     margin-bottom: 10px;
+}
+
+#calorie-input {
+    margin-bottom: 20px;
+}
+
+#portion-control {
+    margin-bottom: 20px;
+}
+
+.portion-slider {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.portion-slider label {
+    flex: 0 0 100px;
+}
+
+.portion-slider input {
+    flex: 1;
+}
+
+.portion-slider span {
+    flex: 0 0 50px;
+    text-align: right;
+}
+
+#nutrition-summary {
+    background-color: #f0f8ff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.nutrient-circle {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    position: relative;
+}
+
+.nutrient-circle canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.nutrient-circle .nutrient-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 12px;
 }

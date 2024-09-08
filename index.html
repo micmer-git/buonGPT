@@ -27,87 +27,30 @@
             <p>Scopri il valore nutrizionale dei tuoi alimenti preferiti e crea la tua dieta perfetta!</p>
         </section>
 
-        <section id="food-selection">
-            <h2>Seleziona gli alimenti</h2>
-            <div id="food-categories">
-                <!-- Categorie di alimenti con emoji -->
-            </div>
-            <div id="food-list" class="hidden">
-                <!-- Lista di alimenti per categoria selezionata -->
-            </div>
-        </section>
-
-        <section id="portion-control">
-            <h3>Controllo Porzioni</h3>
-            <div id="portion-sliders">
-                <!-- Gli slider per il controllo delle porzioni verranno aggiunti qui dinamicamente -->
-            </div>
-        </section>
-
-        <section id="nutrition-summary">
-            <!-- Il riassunto nutrizionale verrà inserito qui dinamicamente -->
-        </section>
-        
-        <section id="nutritional-tables">
-            <!-- ... (tabelle nutrizionali) ... -->
-        </section>
-
-        <section id="nutritional-tables">
-            <div class="slider-container">
-                <div class="slider-wrapper">
-                    <div id="macronutrients" class="table-container">
-                        <h3>Macronutrienti</h3>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nutriente</th>
-                                    <th>Quantità</th>
-                                    <th>% Fabbisogno</th>
-                                    <th>Score</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- I dati dei macronutrienti verranno inseriti qui -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="minerals" class="table-container">
-                        <h3>Micronutrienti (Minerali)</h3>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Minerale</th>
-                                    <th>Quantità</th>
-                                    <th>% Fabbisogno</th>
-                                    <th>Score</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- I dati dei minerali verranno inseriti qui -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="vitamins" class="table-container">
-                        <h3>Micronutrienti (Vitamine)</h3>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Vitamina</th>
-                                    <th>Quantità</th>
-                                    <th>% Fabbisogno</th>
-                                    <th>Score</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- I dati delle vitamine verranno inseriti qui -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <button class="slider-button prev"><i class="fas fa-chevron-left"></i></button>
-                <button class="slider-button next"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </section>
+                <section id="calorie-input">
+                    <label for="desired-calories">Calorie desiderate:</label>
+                    <input type="number" id="desired-calories" min="0" step="100" value="2000">
+                    <button onclick="updateDesiredCalories()">Aggiorna</button>
+                </section>
+                
+                <section id="food-selection">
+                    <h2>Seleziona gli alimenti</h2>
+                    <div id="food-categories"></div>
+                    <div id="food-list" class="hidden"></div>
+                </section>
+                
+                <section id="portion-control">
+                    <h3>Controllo Porzioni</h3>
+                    <div id="portion-sliders"></div>
+                </section>
+                
+                <section id="nutrition-summary">
+                    <h3>Riassunto Nutrizionale</h3>
+                    <div id="total-calories"></div>
+                    <div id="macronutrients-table"></div>
+                    <div id="micronutrients-minerals-table"></div>
+                    <div id="micronutrients-vitamins-table"></div>
+                </section>
     </main>
 
     <footer>
