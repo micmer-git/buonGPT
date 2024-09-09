@@ -179,26 +179,21 @@ function calculateScore(amount, nutrient) {
 
 function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) {
     const progressElement = document.getElementById(`${nutrientId}-progress`);
+    const percentageElement = document.getElementById(`${nutrientId}-percentage`);
     const valueElement = document.getElementById(`${nutrientId}-value`);
     const sourcesElement = document.getElementById(`${nutrientId}-foods`);
+    
     const percentage = Math.min((currentValue / targetValue) * 100, 100);
     
     progressElement.style.width = `${percentage}%`;
-    
-    let unit = 'g';
-    if (nutrientId === 'calories') {
-        unit = 'kcal';
-    } else if (['vitamin-a', 'vitamin-d', 'vitamin-k', 'vitamin-b12', 'selenium'].includes(nutrientId)) {
-        unit = 'µg';
-    } else if (['vitamin-c', 'vitamin-e', 'calcium', 'iron', 'magnesium', 'phosphorus', 'potassium', 'zinc'].includes(nutrientId)) {
-        unit = 'mg';
-    }
-    
-    valueElement.textContent = `${currentValue.toFixed(1)}/${targetValue} ${unit}`;
+    percentageElement.textContent = `${percentage.toFixed(1)}%`;
+    valueElement.textContent = `${currentValue.toFixed(1)} / ${targetValue.toFixed(1)}`;
 
     if (sourcesElement && sources && sources.length > 0) {
         sourcesElement.innerHTML = sources.slice(0, 3).map(source => 
-            `<span class="food-emoji" title="${source.name}: ${source.amount.toFixed(1)}${getNutrientUnit(nutrientId)}">${source.emoji}</span>`
+            `<span class="food-contributor" title="${source.name}">
+                ${source.emoji} ${source.amount.toFixed(1)}
+            </span>`
         ).join('');
     }
 }
