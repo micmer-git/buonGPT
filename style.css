@@ -504,21 +504,23 @@ footer {
 }
 
 .contributing-foods {
-    flex: 0 0 60px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
-    margin-left: 10px;
+    flex-wrap: wrap;
 }
 
 .food-emoji {
-    font-size: 1em;
-    margin-left: 4px;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
     white-space: nowrap;
 }
 
 .food-emoji::after {
-    content: "\00a0"; /* Aggiunge uno spazio non interrompibile dopo l'emoji */
+    content: attr(data-value);
+    margin-left: 2px;
+    font-size: 0.8em;
 }
 
 @media (max-width: 600px) {

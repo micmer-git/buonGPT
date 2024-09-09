@@ -176,51 +176,37 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) 
     const progressElement = document.getElementById(`${nutrientId}-progress`);
     const valueElement = document.getElementById(`${nutrientId}-value`);
     const sourcesElement = document.getElementById(`${nutrientId}-foods`);
-
-    if (!progressElement || !valueElement) {
-        console.warn(`Elements for nutrient ${nutrientId} not found`);
-        return;
-    }
-
     const percentage = Math.min((currentValue / targetValue) * 100, 100);
+    
     progressElement.style.width = `${percentage}%`;
-
-    let unit = getNutrientUnit(nutrientId);
+    
+    let unit = 'g';
+    if (nutrientId === 'calories') {
+        unit = 'kcal';
+    } else if (['vitamin-a', 'vitamin-d', 'vitamin-k', 'vitamin-b12', 'selenium'].includes(nutrientId)) {
+        unit = 'µg';
+    } else if (['vitamin-c', 'vitamin-e', 'calcium', 'iron', 'magnesium', 'phosphorus', 'potassium', 'zinc'].includes(nutrientId)) {
+        unit = 'mg';
+    }
+    
     valueElement.textContent = `${currentValue.toFixed(1)}/${targetValue} ${unit}`;
 
     if (sourcesElement && sources && sources.length > 0) {
         sourcesElement.innerHTML = sources.slice(0, 3).map(source => 
-            `<span class="food-emoji" title="${source.name}">
-                ${source.emoji} ${source.amount.toFixed(1)}
-            </span>`
+            `<span class="food-emoji" title="${source.name}">${source.emoji}</span>`
         ).join('');
     }
 }
 
-function getNutrientUnit(nutrientId) {
+function getNutrientUnit(nutrient) {
+    // Definisci le unità appropriate per ciascun nutriente
     const unitMap = {
-        calories: 'kcal',
-        protein: 'g',
-        carbs: 'g',
-        fat: 'g',
-        fiber: 'g',
-        'saturated-fat': 'g',
-        'unsaturated-fat': 'g',
-        'vitamin-a': 'µg',
-        'vitamin-c': 'mg',
-        'vitamin-d': 'µg',
-        'vitamin-e': 'mg',
-        'vitamin-k': 'µg',
-        'vitamin-b12': 'µg',
-        calcium: 'mg',
-        iron: 'mg',
-        magnesium: 'mg',
-        phosphorus: 'mg',
-        potassium: 'mg',
-        zinc: 'mg',
-        selenium: 'µg'
+        carboidrati: 'g', proteine: 'g', grassi_totali: 'g',
+        vitaminaA: 'µg', vitaminaC: 'mg', vitaminaD: 'µg',
+        calcio: 'mg', ferro: 'mg', magnesio: 'mg'
+        // Aggiungi altre unità secondo necessità
     };
-    return unitMap[nutrientId] || 'g';
+    return unitMap[nutrient] || '';
 }
 
 // Chiamare questa funzione dopo aver caricato la pagina
