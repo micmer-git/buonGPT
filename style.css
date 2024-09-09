@@ -472,7 +472,7 @@ footer {
 }
 
 .nutrient-label {
-    flex: 0 0 100px;
+    flex: 0 0 120px;
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
@@ -512,8 +512,13 @@ footer {
 }
 
 .food-emoji {
-    font-size: 1.2em;
-    margin-left: 2px;
+    font-size: 1em;
+    margin-left: 4px;
+    white-space: nowrap;
+}
+
+.food-emoji::after {
+    content: "\00a0"; /* Aggiunge uno spazio non interrompibile dopo l'emoji */
 }
 
 @media (max-width: 600px) {
