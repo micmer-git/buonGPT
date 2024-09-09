@@ -517,29 +517,15 @@ const foodData = {
     ],
     cereali: [
         {
-            name: "Pane integrale", emoji: "🍞", calories: 247, portion: 100, servingSize: 100, nutrients: {
-                carboidrati: 41, fibre: 7, zuccheri: 5.7, proteine: 13, grassi_totali: 3.5,
-                grassi_saturi: 0.6, grassi_insaturi: 2.3, omega3: 0.1, omega6: 1.8,
-                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.6, vitaminaK: 3.4, vitaminaB12: 0,
-                calcio: 107, ferro: 2.5, magnesio: 76, fosforo: 218, potassio: 248, zinco: 1.8, selenio: 40
+            name: "Pane integrale", emoji: "🍞", calories: 247, portion: 70, servingSize: 70, nutrients: {
+                carboidrati: 28.7, fibre: 4.9, zuccheri: 4, proteine: 9.1, grassi_totali: 2.45,
+                grassi_saturi: 0.42, grassi_insaturi: 1.61, omega3: 0.07, omega6: 1.26,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.42, vitaminaK: 2.38, vitaminaB12: 0,
+                calcio: 74.9, ferro: 1.75, magnesio: 53.2, fosforo: 152.6, potassio: 173.6, zinco: 1.26, selenio: 28
             }
         },
-        {
-            name: "Riso", emoji: "🍚", calories: 130, portion: 100, servingSize: 100, nutrients: {
-                carboidrati: 28, fibre: 0.4, zuccheri: 0.1, proteine: 2.7, grassi_totali: 0.3,
-                grassi_saturi: 0.1, grassi_insaturi: 0.1, omega3: 0, omega6: 0.1,
-                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.04, vitaminaK: 0, vitaminaB12: 0,
-                calcio: 10, ferro: 0.2, magnesio: 12, fosforo: 43, potassio: 35, zinco: 0.5, selenio: 7.5
-            }
-        },
-        {
-            name: "Pasta", emoji: "🍝", calories: 131, portion: 100, servingSize: 100, nutrients: {
-                carboidrati: 25, fibre: 1.8, zuccheri: 0.9, proteine: 5, grassi_totali: 1.1,
-                grassi_saturi: 0.2, grassi_insaturi: 0.7, omega3: 0, omega6: 0.4,
-                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.1, vitaminaK: 0.1, vitaminaB12: 0,
-                calcio: 7, ferro: 1.3, magnesio: 53, fosforo: 189, potassio: 223, zinco: 1.4, selenio: 63
-            }
-        },
+
+
         {
             name: "Quinoa", emoji: "🥣", calories: 120, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 21, fibre: 2.8, zuccheri: 0.9, proteine: 4.4, grassi_totali: 1.9,
@@ -549,13 +535,69 @@ const foodData = {
             }
         },
         {
-            name: "Avena", emoji: "🥣", calories: 389, portion: 100, servingSize: 100, nutrients: {
-                carboidrati: 66, fibre: 10.6, zuccheri: 0, proteine: 16.9, grassi_totali: 6.9,
-                grassi_saturi: 1.2, grassi_insaturi: 5.3, omega3: 0.1, omega6: 2.4,
-                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.7, vitaminaK: 2, vitaminaB12: 0,
-                calcio: 54, ferro: 4.7, magnesio: 177, fosforo: 523, potassio: 429, zinco: 4, selenio: 34
+            name: "Avena", emoji: "🥣", calories: 389, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 33, fibre: 5.3, zuccheri: 0, proteine: 8.45, grassi_totali: 3.45,
+                grassi_saturi: 0.6, grassi_insaturi: 2.65, omega3: 0.05, omega6: 1.2,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.35, vitaminaK: 1, vitaminaB12: 0,
+                calcio: 27, ferro: 2.35, magnesio: 88.5, fosforo: 261.5, potassio: 214.5, zinco: 2, selenio: 17
             }
-        }
+        },
+        {
+            name: "Farro", emoji: "🌾", calories: 150, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 30, fibre: 3.8, zuccheri: 2, proteine: 6, grassi_totali: 1.1,
+                grassi_saturi: 0.2, grassi_insaturi: 0.7, omega3: 0.02, omega6: 0.4,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.3, vitaminaK: 0.2, vitaminaB12: 0,
+                calcio: 11, ferro: 2.4, magnesio: 55, fosforo: 180, potassio: 235, zinco: 1.7, selenio: 40
+            }
+        },
+        {
+            name: "Grano Saraceno", emoji: "🌾", calories: 343, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 71.5, fibre: 10, zuccheri: 0.4, proteine: 13.3, grassi_totali: 3.4,
+                grassi_saturi: 0.7, grassi_insaturi: 2.2, omega3: 0.03, omega6: 0.87,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.8, vitaminaK: 1.6, vitaminaB12: 0,
+                calcio: 18, ferro: 2.2, magnesio: 231, fosforo: 347, potassio: 460, zinco: 2.4, selenio: 8.3
+            }
+        },
+        {
+            name: "Orzo", emoji: "🌾", calories: 354, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 73.5, fibre: 17.3, zuccheri: 0.8, proteine: 12.5, grassi_totali: 2.3,
+                grassi_saturi: 0.5, grassi_insaturi: 1.1, omega3: 0.02, omega6: 0.45,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.4, vitaminaK: 1.1, vitaminaB12: 0,
+                calcio: 29, ferro: 3.6, magnesio: 133, fosforo: 264, potassio: 452, zinco: 2.1, selenio: 37.7
+            }
+        },
+        {
+            name: "Amaranto", emoji: "🌾", calories: 371, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 65.7, fibre: 6.7, zuccheri: 1.7, proteine: 14.4, grassi_totali: 7,
+                grassi_saturi: 1.5, grassi_insaturi: 4.5, omega3: 0.1, omega6: 2.9,
+                vitaminaA: 2, vitaminaC: 4.2, vitaminaD: 0, vitaminaE: 2.1, vitaminaK: 0.7, vitaminaB12: 0,
+                calcio: 159, ferro: 7.6, magnesio: 248, fosforo: 557, potassio: 508, zinco: 3.7, selenio: 18.7
+            }
+        },
+        {
+            name: "Riso", emoji: "🍚", calories: 365, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 80, fibre: 1.3, zuccheri: 0.1, proteine: 7.1, grassi_totali: 0.6,
+                grassi_saturi: 0.1, grassi_insaturi: 0.2, omega3: 0, omega6: 0.1,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.07, vitaminaK: 0, vitaminaB12: 0,
+                calcio: 28, ferro: 0.8, magnesio: 25, fosforo: 115, potassio: 43, zinco: 1.2, selenio: 15
+            }
+        },
+        {
+            name: "Pasta", emoji: "🍝", calories: 371, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 74.7, fibre: 3.5, zuccheri: 2.7, proteine: 13.1, grassi_totali: 1.5,
+                grassi_saturi: 0.3, grassi_insaturi: 1, omega3: 0, omega6: 0.6,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.2, vitaminaK: 0.1, vitaminaB12: 0,
+                calcio: 21, ferro: 1.3, magnesio: 47, fosforo: 190, potassio: 223, zinco: 2.6, selenio: 65
+            }
+        },
+        {
+            name: "Couscous", emoji: "🍚", calories: 376, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 77.4, fibre: 5, zuccheri: 0.1, proteine: 12.8, grassi_totali: 0.6,
+                grassi_saturi: 0.1, grassi_insaturi: 0.2, omega3: 0, omega6: 0.2,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.13, vitaminaK: 0.6, vitaminaB12: 0,
+                calcio: 24, ferro: 1.08, magnesio: 44, fosforo: 170, potassio: 140, zinco: 0.6, selenio: 27
+            }
+        },
     ],
     latticini: [
         {
