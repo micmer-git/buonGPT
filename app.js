@@ -38,18 +38,60 @@ function updatePortionSize(foodName, change) {
 
 function calculateNutrition() {
     let totalCalories = 0;
-    let totalNutrients = {};
+    let totalNutrients = {
+        proteine: 0,
+        carboidrati: 0,
+        grassi_totali: 0,
+        fibre: 0,
+        grassi_saturi: 0,
+        grassi_insaturi: 0,
+        vitaminaA: 0,
+        vitaminaC: 0,
+        vitaminaD: 0,
+        vitaminaE: 0,
+        vitaminaK: 0,
+        vitaminaB12: 0,
+        calcio: 0,
+        ferro: 0,
+        magnesio: 0,
+        fosforo: 0,
+        potassio: 0,
+        zinco: 0,
+        selenio: 0
+    };
 
     selectedFoods.forEach(food => {
         const portionRatio = food.currentPortion / food.portion;
-        const caloriesFromFood = food.calories * portionRatio;
-        totalCalories += caloriesFromFood;
+        totalCalories += food.calories * portionRatio;
 
         for (let nutrient in food.nutrients) {
-            if (!totalNutrients[nutrient]) totalNutrients[nutrient] = 0;
-            totalNutrients[nutrient] += food.nutrients[nutrient] * portionRatio;
+            if (totalNutrients.hasOwnProperty(nutrient)) {
+                totalNutrients[nutrient] += food.nutrients[nutrient] * portionRatio;
+            }
         }
     });
+
+    // Aggiorna le barre di progressione
+    updateNutrientProgress('calories', totalCalories, desiredCalories);
+    updateNutrientProgress('protein', totalNutrients.proteine, dailyNutrientNeeds.proteine);
+    updateNutrientProgress('carbs', totalNutrients.carboidrati, dailyNutrientNeeds.carboidrati);
+    updateNutrientProgress('fat', totalNutrients.grassi_totali, dailyNutrientNeeds.grassi_totali);
+    updateNutrientProgress('fiber', totalNutrients.fibre, dailyNutrientNeeds.fibre);
+    updateNutrientProgress('saturated-fat', totalNutrients.grassi_saturi, dailyNutrientNeeds.grassi_saturi);
+    updateNutrientProgress('unsaturated-fat', totalNutrients.grassi_insaturi, dailyNutrientNeeds.grassi_insaturi);
+    updateNutrientProgress('vitamin-a', totalNutrients.vitaminaA, dailyNutrientNeeds.vitaminaA);
+    updateNutrientProgress('vitamin-c', totalNutrients.vitaminaC, dailyNutrientNeeds.vitaminaC);
+    updateNutrientProgress('vitamin-d', totalNutrients.vitaminaD, dailyNutrientNeeds.vitaminaD);
+    updateNutrientProgress('vitamin-e', totalNutrients.vitaminaE, dailyNutrientNeeds.vitaminaE);
+    updateNutrientProgress('vitamin-k', totalNutrients.vitaminaK, dailyNutrientNeeds.vitaminaK);
+    updateNutrientProgress('vitamin-b12', totalNutrients.vitaminaB12, dailyNutrientNeeds.vitaminaB12);
+    updateNutrientProgress('calcium', totalNutrients.calcio, dailyNutrientNeeds.calcio);
+    updateNutrientProgress('iron', totalNutrients.ferro, dailyNutrientNeeds.ferro);
+    updateNutrientProgress('magnesium', totalNutrients.magnesio, dailyNutrientNeeds.magnesio);
+    updateNutrientProgress('phosphorus', totalNutrients.fosforo, dailyNutrientNeeds.fosforo);
+    updateNutrientProgress('potassium', totalNutrients.potassio, dailyNutrientNeeds.potassio);
+    updateNutrientProgress('zinc', totalNutrients.zinco, dailyNutrientNeeds.zinco);
+    updateNutrientProgress('selenium', totalNutrients.selenio, dailyNutrientNeeds.selenio);
 
     // Normalizza per 100 kcal
     const normalizationFactor = 100 / totalCalories;
@@ -77,15 +119,6 @@ function switchView(view) {
     document.querySelectorAll('.view-button').forEach(btn => btn.classList.remove('active'));
     document.querySelector(`.view-button[onclick="switchView('${view}')"]`).classList.add('active');
     calculateNutrition();
-}
-
-function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients) {
-    document.getElementById('total-calories').textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
-
-    const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
-    updateNutrientTable('macronutrients-table', 'Macronutrienti', ['carboidrati', 'proteine', 'grassi_totali'], nutrients);
-    updateNutrientTable('micronutrients-minerals-table', 'Micronutrienti - Minerali', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], nutrients);
-    updateNutrientTable('micronutrients-vitamins-table', 'Micronutrienti - Vitamine', ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'], nutrients);
 }
 
 function updateNutrientTable(tableId, title, nutrients, nutrientValues) {
@@ -126,46 +159,23 @@ function calculateScore(amount, nutrient) {
     return percentDailyNeed / calorieRatio;
 }
 
-
-function updateNutrientTable(tableId, title, nutrients, totalNutrients, normalizedNutrients) {
-    const table = document.getElementById(tableId);
-    let html = `
-        <h4>${title}</h4>
-        <table>
-            <tr>
-                <th>Nutriente</th>
-                <th>Quantità Totale</th>
-                <th>Quantità per 100 kcal</th>
-                <th>% Fabbisogno</th>
-                <th>Score</th>
-            </tr>
-    `;
-
-    nutrients.forEach(nutrient => {
-        const totalAmount = totalNutrients[nutrient] || 0;
-        const normalizedAmount = normalizedNutrients[nutrient] || 0;
-        const percentDailyNeed = (normalizedAmount / dailyNutrientNeeds[nutrient]) * 100;
-        const score = calculateScore(normalizedAmount, nutrient);
-
-        html += `
-            <tr>
-                <td>${nutrient}</td>
-                <td>${totalAmount.toFixed(2)}${getNutrientUnit(nutrient)}</td>
-                <td>${normalizedAmount.toFixed(2)}${getNutrientUnit(nutrient)}</td>
-                <td>${percentDailyNeed.toFixed(1)}%</td>
-                <td>${score.toFixed(2)}</td>
-            </tr>
-        `;
-    });
-
-    html += '</table>';
-    table.innerHTML = html;
-}
-
-function calculateScore(normalizedAmount, nutrient) {
-    const percentDailyNeed = (normalizedAmount / dailyNutrientNeeds[nutrient]) * 100;
-    const calorieRatio = 100 / desiredCalories * 100;
-    return percentDailyNeed / calorieRatio;
+function updateNutrientProgress(nutrientId, currentValue, targetValue) {
+    const progressElement = document.getElementById(`${nutrientId}-progress`);
+    const valueElement = document.getElementById(`${nutrientId}-value`);
+    const percentage = Math.min((currentValue / targetValue) * 100, 100);
+    
+    progressElement.style.width = `${percentage}%`;
+    
+    let unit = 'g';
+    if (nutrientId === 'calories') {
+        unit = 'kcal';
+    } else if (['vitamin-a', 'vitamin-d', 'vitamin-k', 'vitamin-b12', 'selenium'].includes(nutrientId)) {
+        unit = 'µg';
+    } else if (['vitamin-c', 'vitamin-e', 'calcium', 'iron', 'magnesium', 'phosphorus', 'potassium', 'zinc'].includes(nutrientId)) {
+        unit = 'mg';
+    }
+    
+    valueElement.textContent = `${currentValue.toFixed(1)}/${targetValue} ${unit}`;
 }
 
 function getNutrientUnit(nutrient) {

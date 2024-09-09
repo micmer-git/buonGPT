@@ -462,3 +462,46 @@ footer {
     text-align: center;
     font-size: 12px;
 }
+
+.nutrient-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.nutrient-label {
+    flex: 0 0 100px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+.progress {
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.nutrient-value {
+    flex: 0 0 100px;
+    text-align: right;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.contributing-foods {
+    flex: 0 0 60px;
+    text-align: right;
+    margin-left: 10px;
+}
