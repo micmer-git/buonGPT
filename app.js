@@ -12,24 +12,26 @@ function updatePortionControls() {
     portionContainer.innerHTML = '';
 
     selectedFoods.forEach(food => {
-        const sliderContainer = document.createElement('div');
-        sliderContainer.classList.add('portion-slider');
-        sliderContainer.innerHTML = `
+        const controlContainer = document.createElement('div');
+        controlContainer.classList.add('portion-control');
+        controlContainer.innerHTML = `
             <label>${food.emoji} ${food.name}</label>
-            <input type="range" min="0" max="500" value="${food.currentPortion}" step="10" 
-                   oninput="updatePortionSize('${food.name}', this.value)">
-            <span>${food.currentPortion}g</span>
+            <div class="portion-buttons">
+                <button onclick="updatePortionSize('${food.name}', -0.25)">-</button>
+                <span>${food.currentPortion / food.servingSize}x (${food.currentPortion}g)</span>
+                <button onclick="updatePortionSize('${food.name}', 0.25)">+</button>
+            </div>
         `;
-        portionContainer.appendChild(sliderContainer);
+        portionContainer.appendChild(controlContainer);
     });
 }
 
-function updatePortionSize(foodName, size) {
+function updatePortionSize(foodName, change) {
     const food = selectedFoods.find(f => f.name === foodName);
     if (food) {
-        food.currentPortion = parseInt(size);
-        document.querySelector(`[oninput="updatePortionSize('${foodName}', this.value)"]`)
-            .nextElementSibling.textContent = `${size}g`;
+        const newMultiple = Math.max(0.25, (food.currentPortion / food.servingSize) + change);
+        food.currentPortion = Math.round(newMultiple * food.servingSize);
+        updatePortionControls();
         calculateNutrition();
     }
 }
@@ -62,10 +64,68 @@ function calculateNutrition() {
 function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients) {
     document.getElementById('total-calories').textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
 
-    updateNutrientTable('macronutrients-table', 'Macronutrienti', ['carboidrati', 'proteine', 'grassi_totali'], totalNutrients, normalizedNutrients);
-    updateNutrientTable('micronutrients-minerals-table', 'Micronutrienti - Minerali', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], totalNutrients, normalizedNutrients);
-    updateNutrientTable('micronutrients-vitamins-table', 'Micronutrienti - Vitamine', ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'], totalNutrients, normalizedNutrients);
+    const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
+    updateNutrientTable('macronutrients-table', 'Macronutrienti', ['carboidrati', 'proteine', 'grassi_totali'], nutrients);
+    updateNutrientTable('micronutrients-minerals-table', 'Micronutrienti - Minerali', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], nutrients);
+    updateNutrientTable('micronutrients-vitamins-table', 'Micronutrienti - Vitamine', ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'], nutrients);
 }
+
+let currentView = 'total';
+
+function switchView(view) {
+    currentView = view;
+    document.querySelectorAll('.view-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.view-button[onclick="switchView('${view}')"]`).classList.add('active');
+    calculateNutrition();
+}
+
+function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients) {
+    document.getElementById('total-calories').textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
+
+    const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
+    updateNutrientTable('macronutrients-table', 'Macronutrienti', ['carboidrati', 'proteine', 'grassi_totali'], nutrients);
+    updateNutrientTable('micronutrients-minerals-table', 'Micronutrienti - Minerali', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], nutrients);
+    updateNutrientTable('micronutrients-vitamins-table', 'Micronutrienti - Vitamine', ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'], nutrients);
+}
+
+function updateNutrientTable(tableId, title, nutrients, nutrientValues) {
+    const table = document.getElementById(tableId);
+    let html = `
+        <h4>${title}</h4>
+        <table>
+            <tr>
+                <th>Nutriente</th>
+                <th>Quantità</th>
+                <th>% Fabbisogno</th>
+                <th>Score</th>
+            </tr>
+    `;
+
+    nutrients.forEach(nutrient => {
+        const amount = nutrientValues[nutrient] || 0;
+        const percentDailyNeed = (amount / dailyNutrientNeeds[nutrient]) * 100;
+        const score = calculateScore(amount, nutrient);
+
+        html += `
+            <tr>
+                <td>${nutrient}</td>
+                <td>${amount.toFixed(2)}${getNutrientUnit(nutrient)}</td>
+                <td>${percentDailyNeed.toFixed(1)}%</td>
+                <td>${score.toFixed(2)}</td>
+            </tr>
+        `;
+    });
+
+    html += '</table>';
+    table.innerHTML = html;
+}
+
+function calculateScore(amount, nutrient) {
+    const percentDailyNeed = (amount / dailyNutrientNeeds[nutrient]) * 100;
+    const calorieRatio = (currentView === 'total' ? 100 : 100 / desiredCalories) * 100;
+    return percentDailyNeed / calorieRatio;
+}
+
 
 function updateNutrientTable(tableId, title, nutrients, totalNutrients, normalizedNutrients) {
     const table = document.getElementById(tableId);
@@ -129,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const foodData = {
     frutta: [
         {
-            name: "Mela", emoji: "🍎", calories: 52, portion: 100, nutrients: {
+            name: "Mela", emoji: "🍎", calories: 52, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 14, fibre: 2.4, zuccheri: 10, proteine: 0.3, grassi_totali: 0.2,
                 grassi_saturi: 0, grassi_insaturi: 0.1, omega3: 0, omega6: 0.1,
                 vitaminaA: 54, vitaminaC: 4.6, vitaminaD: 0, vitaminaE: 0.18, vitaminaK: 2.2, vitaminaB12: 0,
@@ -137,7 +197,7 @@ const foodData = {
             }
         },
         {
-            name: "Banana", emoji: "🍌", calories: 89, portion: 100, nutrients: {
+            name: "Banana", emoji: "🍌", calories: 89, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 23, fibre: 2.6, zuccheri: 12, proteine: 1.1, grassi_totali: 0.3,
                 grassi_saturi: 0.1, grassi_insaturi: 0.1, omega3: 0, omega6: 0.1,
                 vitaminaA: 64, vitaminaC: 8.7, vitaminaD: 0, vitaminaE: 0.1, vitaminaK: 0.5, vitaminaB12: 0,
@@ -145,7 +205,7 @@ const foodData = {
             }
         },
         {
-            name: "Arancia", emoji: "🍊", calories: 47, portion: 100, nutrients: {
+            name: "Arancia", emoji: "🍊", calories: 47, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 12, fibre: 2.4, zuccheri: 9, proteine: 0.9, grassi_totali: 0.1,
                 grassi_saturi: 0, grassi_insaturi: 0.1, omega3: 0, omega6: 0,
                 vitaminaA: 225, vitaminaC: 53.2, vitaminaD: 0, vitaminaE: 0.18, vitaminaK: 0, vitaminaB12: 0,
@@ -153,7 +213,7 @@ const foodData = {
             }
         },
         {
-            name: "Fragole", emoji: "🍓", calories: 32, portion: 100, nutrients: {
+            name: "Fragole", emoji: "🍓", calories: 32, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 7.7, fibre: 2, zuccheri: 4.9, proteine: 0.7, grassi_totali: 0.3,
                 grassi_saturi: 0, grassi_insaturi: 0.2, omega3: 0.1, omega6: 0.1,
                 vitaminaA: 1, vitaminaC: 58.8, vitaminaD: 0, vitaminaE: 0.29, vitaminaK: 2.2, vitaminaB12: 0,
@@ -161,7 +221,7 @@ const foodData = {
             }
         },
         {
-            name: "Mango", emoji: "🥭", calories: 60, portion: 100, nutrients: {
+            name: "Mango", emoji: "🥭", calories: 60, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 15, fibre: 1.6, zuccheri: 13.7, proteine: 0.8, grassi_totali: 0.4,
                 grassi_saturi: 0.1, grassi_insaturi: 0.2, omega3: 0, omega6: 0.1,
                 vitaminaA: 54, vitaminaC: 36.4, vitaminaD: 0, vitaminaE: 0.9, vitaminaK: 4.2, vitaminaB12: 0,
@@ -171,7 +231,7 @@ const foodData = {
     ],
     verdura: [
         {
-            name: "Carota", emoji: "🥕", calories: 41, portion: 100, nutrients: {
+            name: "Carota", emoji: "🥕", calories: 41, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 10, fibre: 2.8, zuccheri: 4.7, proteine: 0.9, grassi_totali: 0.2,
                 grassi_saturi: 0, grassi_insaturi: 0.1, omega3: 0, omega6: 0.1,
                 vitaminaA: 835, vitaminaC: 5.9, vitaminaD: 0, vitaminaE: 0.66, vitaminaK: 13.2, vitaminaB12: 0,
@@ -179,7 +239,7 @@ const foodData = {
             }
         },
         {
-            name: "Broccoli", emoji: "🥦", calories: 34, portion: 100, nutrients: {
+            name: "Broccoli", emoji: "🥦", calories: 34, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 6.6, fibre: 2.6, zuccheri: 1.7, proteine: 2.8, grassi_totali: 0.4,
                 grassi_saturi: 0, grassi_insaturi: 0.3, omega3: 0.1, omega6: 0.1,
                 vitaminaA: 31, vitaminaC: 89.2, vitaminaD: 0, vitaminaE: 0.78, vitaminaK: 101.6, vitaminaB12: 0,
@@ -187,7 +247,7 @@ const foodData = {
             }
         },
         {
-            name: "Spinaci", emoji: "🍃", calories: 23, portion: 100, nutrients: {
+            name: "Spinaci", emoji: "🍃", calories: 23, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 3.6, fibre: 2.2, zuccheri: 0.4, proteine: 2.9, grassi_totali: 0.4,
                 grassi_saturi: 0.1, grassi_insaturi: 0.2, omega3: 0.1, omega6: 0.1,
                 vitaminaA: 469, vitaminaC: 28.1, vitaminaD: 0, vitaminaE: 2, vitaminaK: 483, vitaminaB12: 0,
@@ -195,7 +255,7 @@ const foodData = {
             }
         },
         {
-            name: "Pomodoro", emoji: "🍅", calories: 18, portion: 100, nutrients: {
+            name: "Pomodoro", emoji: "🍅", calories: 18, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 3.9, fibre: 1.2, zuccheri: 2.6, proteine: 0.9, grassi_totali: 0.2,
                 grassi_saturi: 0, grassi_insaturi: 0.1, omega3: 0, omega6: 0.1,
                 vitaminaA: 42, vitaminaC: 13.7, vitaminaD: 0, vitaminaE: 0.54, vitaminaK: 7.9, vitaminaB12: 0,
@@ -203,7 +263,7 @@ const foodData = {
             }
         },
         {
-            name: "Zucchine", emoji: "🥒", calories: 17, portion: 100, nutrients: {
+            name: "Zucchine", emoji: "🥒", calories: 17, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 3.1, fibre: 1, zuccheri: 2.5, proteine: 1.2, grassi_totali: 0.3,
                 grassi_saturi: 0.1, grassi_insaturi: 0.1, omega3: 0, omega6: 0.1,
                 vitaminaA: 10, vitaminaC: 17.9, vitaminaD: 0, vitaminaE: 0.12, vitaminaK: 4.3, vitaminaB12: 0,
@@ -213,7 +273,7 @@ const foodData = {
     ],
     proteine: [
         {
-            name: "Pollo", emoji: "🍗", calories: 165, portion: 100, nutrients: {
+            name: "Pollo", emoji: "🍗", calories: 165, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 0, fibre: 0, zuccheri: 0, proteine: 31, grassi_totali: 3.6,
                 grassi_saturi: 1, grassi_insaturi: 2.1, omega3: 0.1, omega6: 0.8,
                 vitaminaA: 6, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.3, vitaminaK: 0, vitaminaB12: 0.3,
@@ -221,7 +281,7 @@ const foodData = {
             }
         },
         {
-            name: "Salmone", emoji: "🐟", calories: 208, portion: 100, nutrients: {
+            name: "Salmone", emoji: "🐟", calories: 208, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 0, fibre: 0, zuccheri: 0, proteine: 20, grassi_totali: 13,
                 grassi_saturi: 3, grassi_insaturi: 8, omega3: 2.2, omega6: 0.5,
                 vitaminaA: 58, vitaminaC: 0, vitaminaD: 11, vitaminaE: 3.5, vitaminaK: 0.5, vitaminaB12: 2.6,
@@ -229,7 +289,7 @@ const foodData = {
             }
         },
         {
-            name: "Uova", emoji: "🥚", calories: 155, portion: 100, nutrients: {
+            name: "Uova", emoji: "🥚", calories: 155, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 1.1, fibre: 0, zuccheri: 1.1, proteine: 13, grassi_totali: 11,
                 grassi_saturi: 3.3, grassi_insaturi: 6.1, omega3: 0.1, omega6: 1.4,
                 vitaminaA: 149, vitaminaC: 0, vitaminaD: 2, vitaminaE: 1, vitaminaK: 0.3, vitaminaB12: 0.9,
@@ -237,7 +297,7 @@ const foodData = {
             }
         },
         {
-            name: "Tofu", emoji: "🧊", calories: 144, portion: 100, nutrients: {
+            name: "Tofu", emoji: "🧊", calories: 144, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 2.8, fibre: 2.3, zuccheri: 0.5, proteine: 17, grassi_totali: 8,
                 grassi_saturi: 1.2, grassi_insaturi: 6.2, omega3: 0.7, omega6: 5.5,
                 vitaminaA: 1, vitaminaC: 0.1, vitaminaD: 0, vitaminaE: 0.01, vitaminaK: 2.6, vitaminaB12: 0,
@@ -245,7 +305,7 @@ const foodData = {
             }
         },
         {
-            name: "Lenticchie", emoji: "🫘", calories: 116, portion: 100, nutrients: {
+            name: "Lenticchie", emoji: "🫘", calories: 116, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 20, fibre: 7.9, zuccheri: 1.8, proteine: 9, grassi_totali: 0.4,
                 grassi_saturi: 0.1, grassi_insaturi: 0.2, omega3: 0, omega6: 0.2,
                 vitaminaA: 2, vitaminaC: 1.5, vitaminaD: 0, vitaminaE: 0.11, vitaminaK: 1.7, vitaminaB12: 0,
@@ -255,7 +315,7 @@ const foodData = {
     ],
     cereali: [
         {
-            name: "Pane integrale", emoji: "🍞", calories: 247, portion: 100, nutrients: {
+            name: "Pane integrale", emoji: "🍞", calories: 247, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 41, fibre: 7, zuccheri: 5.7, proteine: 13, grassi_totali: 3.5,
                 grassi_saturi: 0.6, grassi_insaturi: 2.3, omega3: 0.1, omega6: 1.8,
                 vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.6, vitaminaK: 3.4, vitaminaB12: 0,
@@ -263,7 +323,7 @@ const foodData = {
             }
         },
         {
-            name: "Riso", emoji: "🍚", calories: 130, portion: 100, nutrients: {
+            name: "Riso", emoji: "🍚", calories: 130, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 28, fibre: 0.4, zuccheri: 0.1, proteine: 2.7, grassi_totali: 0.3,
                 grassi_saturi: 0.1, grassi_insaturi: 0.1, omega3: 0, omega6: 0.1,
                 vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.04, vitaminaK: 0, vitaminaB12: 0,
@@ -271,7 +331,7 @@ const foodData = {
             }
         },
         {
-            name: "Pasta", emoji: "🍝", calories: 131, portion: 100, nutrients: {
+            name: "Pasta", emoji: "🍝", calories: 131, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 25, fibre: 1.8, zuccheri: 0.9, proteine: 5, grassi_totali: 1.1,
                 grassi_saturi: 0.2, grassi_insaturi: 0.7, omega3: 0, omega6: 0.4,
                 vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.1, vitaminaK: 0.1, vitaminaB12: 0,
@@ -279,7 +339,7 @@ const foodData = {
             }
         },
         {
-            name: "Quinoa", emoji: "🥣", calories: 120, portion: 100, nutrients: {
+            name: "Quinoa", emoji: "🥣", calories: 120, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 21, fibre: 2.8, zuccheri: 0.9, proteine: 4.4, grassi_totali: 1.9,
                 grassi_saturi: 0.2, grassi_insaturi: 1.6, omega3: 0.1, omega6: 0.9,
                 vitaminaA: 1, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.6, vitaminaK: 0, vitaminaB12: 0,
@@ -287,7 +347,7 @@ const foodData = {
             }
         },
         {
-            name: "Avena", emoji: "🥣", calories: 389, portion: 100, nutrients: {
+            name: "Avena", emoji: "🥣", calories: 389, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 66, fibre: 10.6, zuccheri: 0, proteine: 16.9, grassi_totali: 6.9,
                 grassi_saturi: 1.2, grassi_insaturi: 5.3, omega3: 0.1, omega6: 2.4,
                 vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.7, vitaminaK: 2, vitaminaB12: 0,
@@ -297,7 +357,7 @@ const foodData = {
     ],
     latticini: [
         {
-            name: "Latte", emoji: "🥛", calories: 42, portion: 100, nutrients: {
+            name: "Latte", emoji: "🥛", calories: 42, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 5, fibre: 0, zuccheri: 5, proteine: 3.4, grassi_totali: 1,
                 grassi_saturi: 0.6, grassi_insaturi: 0.3, omega3: 0, omega6: 0,
                 vitaminaA: 46, vitaminaC: 0, vitaminaD: 1, vitaminaE: 0.1, vitaminaK: 0.3, vitaminaB12: 0.4,
@@ -305,7 +365,7 @@ const foodData = {
             }
         },
         {
-            name: "Yogurt", emoji: "🥛", calories: 59, portion: 100, nutrients: {
+            name: "Yogurt", emoji: "🥛", calories: 59, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 3.6, fibre: 0, zuccheri: 3.2, proteine: 10, grassi_totali: 0.4,
                 grassi_saturi: 0.1, grassi_insaturi: 0.1, omega3: 0, omega6: 0,
                 vitaminaA: 27, vitaminaC: 0.5, vitaminaD: 0, vitaminaE: 0.01, vitaminaK: 0.2, vitaminaB12: 0.8,
@@ -313,7 +373,7 @@ const foodData = {
             }
         },
         {
-            name: "Formaggio", emoji: "🧀", calories: 402, portion: 100, nutrients: {
+            name: "Formaggio", emoji: "🧀", calories: 402, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 1.3, fibre: 0, zuccheri: 0.5, proteine: 25, grassi_totali: 33,
                 grassi_saturi: 21, grassi_insaturi: 9.5, omega3: 0.3, omega6: 0.8,
                 vitaminaA: 330, vitaminaC: 0, vitaminaD: 0.6, vitaminaE: 0.7, vitaminaK: 2.4, vitaminaB12: 1.1,
@@ -323,7 +383,7 @@ const foodData = {
     ],
     frutta_secca: [
         {
-            name: "Mandorle", emoji: "🥜", calories: 579, portion: 100, nutrients: {
+            name: "Mandorle", emoji: "🥜", calories: 579, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 21.6, fibre: 12.5, zuccheri: 4.4, proteine: 21.2, grassi_totali: 49.9,
                 grassi_saturi: 3.8, grassi_insaturi: 43.3, omega3: 0, omega6: 12.1,
                 vitaminaA: 0, vitaminaC: 0.3, vitaminaD: 0, vitaminaE: 25.6, vitaminaK: 0, vitaminaB12: 0,
@@ -331,7 +391,7 @@ const foodData = {
             }
         },
         {
-            name: "Noci", emoji: "🌰", calories: 654, portion: 100, nutrients: {
+            name: "Noci", emoji: "🌰", calories: 654, portion: 100, servingSize: 100, nutrients: {
                 carboidrati: 13.7, fibre: 6.7, zuccheri: 2.6, proteine: 15.2, grassi_totali: 65.2,
                 grassi_saturi: 6.1, grassi_insaturi: 57.4, omega3: 9.1, omega6: 38.1,
                 vitaminaA: 1, vitaminaC: 1.3, vitaminaD: 0, vitaminaE: 0.7, vitaminaK: 2.7, vitaminaB12: 0,
@@ -380,122 +440,10 @@ function showFoodList(category) {
 
 function selectFood(food) {
     if (!selectedFoods.some(f => f.name === food.name)) {
-        selectedFoods.push({ ...food, currentPortion: food.portion });
+        selectedFoods.push({ ...food, currentPortion: food.servingSize });
         updatePortionControls();
         calculateNutrition();
     }
-}
-
-function updatePortionControls() {
-    const portionContainer = document.getElementById('portion-sliders');
-    portionContainer.innerHTML = '';
-
-    selectedFoods.forEach(food => {
-        const sliderContainer = document.createElement('div');
-        sliderContainer.classList.add('portion-slider');
-        sliderContainer.innerHTML = `
-            <label>${food.emoji} ${food.name}</label>
-            <input type="range" min="0" max="500" value="${food.currentPortion}" step="10" 
-                   oninput="updatePortionSize('${food.name}', this.value)">
-            <span>${food.currentPortion}g</span>
-        `;
-        portionContainer.appendChild(sliderContainer);
-    });
-}
-
-function updatePortionSize(foodName, size) {
-    const food = selectedFoods.find(f => f.name === foodName);
-    if (food) {
-        food.currentPortion = parseInt(size);
-        document.querySelector(`[oninput="updatePortionSize('${foodName}', this.value)"]`)
-            .nextElementSibling.textContent = `${size}g`;
-        calculateNutrition();
-    }
-}
-
-function calculateNutrition() {
-    let totalCalories = 0;
-    let totalNutrients = {};
-
-    selectedFoods.forEach(food => {
-        const portionRatio = food.currentPortion / food.portion;
-        const caloriesFromFood = food.calories * portionRatio;
-        totalCalories += caloriesFromFood;
-
-        for (let nutrient in food.nutrients) {
-            if (!totalNutrients[nutrient]) totalNutrients[nutrient] = 0;
-            totalNutrients[nutrient] += food.nutrients[nutrient] * portionRatio;
-        }
-    });
-
-    // Normalizza per 100 kcal
-    const normalizationFactor = 100 / totalCalories;
-    let normalizedNutrients = {};
-    for (let nutrient in totalNutrients) {
-        normalizedNutrients[nutrient] = totalNutrients[nutrient] * normalizationFactor;
-    }
-
-    updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients);
-}
-
-function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients) {
-    document.getElementById('total-calories').textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
-
-    updateNutrientTable('macronutrients-table', 'Macronutrienti', ['carboidrati', 'proteine', 'grassi_totali'], totalNutrients, normalizedNutrients);
-    updateNutrientTable('micronutrients-minerals-table', 'Micronutrienti - Minerali', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], totalNutrients, normalizedNutrients);
-    updateNutrientTable('micronutrients-vitamins-table', 'Micronutrienti - Vitamine', ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'], totalNutrients, normalizedNutrients);
-}
-
-function updateNutrientTable(tableId, title, nutrients, totalNutrients, normalizedNutrients) {
-    const table = document.getElementById(tableId);
-    let html = `
-        <h4>${title}</h4>
-        <table>
-            <tr>
-                <th>Nutriente</th>
-                <th>Quantità Totale</th>
-                <th>Quantità per 100 kcal</th>
-                <th>% Fabbisogno</th>
-                <th>Score</th>
-            </tr>
-    `;
-
-    nutrients.forEach(nutrient => {
-        const totalAmount = totalNutrients[nutrient] || 0;
-        const normalizedAmount = normalizedNutrients[nutrient] || 0;
-        const percentDailyNeed = (normalizedAmount / dailyNutrientNeeds[nutrient]) * 100;
-        const score = calculateScore(normalizedAmount, nutrient);
-
-        html += `
-            <tr>
-                <td>${nutrient}</td>
-                <td>${totalAmount.toFixed(2)}${getNutrientUnit(nutrient)}</td>
-                <td>${normalizedAmount.toFixed(2)}${getNutrientUnit(nutrient)}</td>
-                <td>${percentDailyNeed.toFixed(1)}%</td>
-                <td>${score.toFixed(2)}</td>
-            </tr>
-        `;
-    });
-
-    html += '</table>';
-    table.innerHTML = html;
-}
-
-function calculateScore(normalizedAmount, nutrient) {
-    const percentDailyNeed = (normalizedAmount / dailyNutrientNeeds[nutrient]) * 100;
-    const calorieRatio = 100 / desiredCalories * 100;
-    return percentDailyNeed / calorieRatio;
-}
-
-function getNutrientUnit(nutrient) {
-    // Definisci le unità appropriate per ciascun nutriente
-    const unitMap = {
-        carboidrati: 'g', proteine: 'g', grassi_totali: 'g',
-        vitaminaA: 'µg', vitaminaC: 'mg', vitaminaD: 'µg',
-        calcio: 'mg', ferro: 'mg', magnesio: 'mg'
-        // Aggiungi altre unità secondo necessità
-    };
-    return unitMap[nutrient] || '';
 }
 
 // Chiamare questa funzione dopo aver caricato la pagina
