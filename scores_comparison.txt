@@ -1,0 +1,53 @@
+
+1. Calcolo delle Calorie per Porzione:
+Banana (1 media): circa 105 kcal
+Cacao in polvere (10g): circa 23 kcal
+Polvere di arachidi (20g): circa 110 kcal
+Yogurt greco (100g): circa 59 kcal
+Totale: 105 + 23 + 110 + 59 = 297 kcal
+
+2. Normalizzazione a 100 kcal:
+Per ottenere i valori relativi a 100 kcal, i nutrienti saranno scalati in base al contributo calorico di ciascun componente.
+
+Coefficiente di scala = 100 / 297 ≈ 0.337
+
+   - **Analisi di un Singolo Alimento:**
+     
+     Presenta una tabella con i seguenti elementi per ogni nutriente identificato:
+
+     - **Nutriente**
+     - **Quantitativo (g/mg per 100 kcal)**
+     - **% Fabbisogno Giornaliero**
+     - **Score**
+
+   - **Confronto tra Due Alimenti (se richiesto):**
+     
+     Crea una tabella comparativa con le seguenti colonne:
+
+     - **Nutriente**
+     - **Quantitativo per Cibo 1**
+     - **Quantitativo per Cibo 2**
+     - **Ranking Emoji**
+
+     Se i valori di un micronutriente sono uguali o il rapporto tra i ranking tra i due è compreso tra 0.9 e 1.1, inserisci solo l'emoji "=". Se un alimento ha un quantitativo significativamente superiore o inferiore rispetto all'altro, usa l'emoji appropriata per indicare il vincitore. Aggiungi l'emoji 👑 se uno degli alimenti ha più del doppio del valore rispetto all'altro.
+
+   - **Combinazione di Alimenti (se richiesto):**
+     
+     Combina i valori nutrizionali dei due alimenti e presenta i risultati per 100 kcal in una tabella, includendo:
+
+     - **Nutriente**
+     - **Quantitativo combinato**
+     - **% Fabbisogno Giornaliero combinato**
+     - **Score combinato**
+     - **Indicatore (Emoji)**
+
+**Legenda degli Indicatori:**
+
+- ✈️: >2x
+- 🟢: 1.5-2x
+- 🟡: 1-1.5x
+- 🟠: 0.5-1x
+- 🔴: 0.25-0.5x
+- ⚫: <0.25x
+- 👑: Alimento con più del doppio del valore rispetto all'altro.
+- "=": Valori uguali o simili (rapporto tra 0.9 e 1.1)

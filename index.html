@@ -52,9 +52,30 @@
                         <button class="view-button" onclick="switchView('per100kcal')">Per 100 kcal</button>
                     </div>
                     <div id="total-calories"></div>
-                    <div id="macronutrients-table"></div>
-                    <div id="micronutrients-minerals-table"></div>
-                    <div id="micronutrients-vitamins-table"></div>
+                    <div class="slider-container">
+                        <h4>Macronutrienti</h4>
+                        <div class="slider-wrapper">
+                            <div class="table-container" id="macronutrients-table"></div>
+                        </div>
+                        <button class="slider-button prev" onclick="slideTable('macro', -1)">&#10094;</button>
+                        <button class="slider-button next" onclick="slideTable('macro', 1)">&#10095;</button>
+                    </div>
+                    <div class="slider-container">
+                        <h4>Vitamine</h4>
+                        <div class="slider-wrapper">
+                            <div class="table-container" id="micronutrients-vitamins-table"></div>
+                        </div>
+                        <button class="slider-button prev" onclick="slideTable('vitamins', -1)">&#10094;</button>
+                        <button class="slider-button next" onclick="slideTable('vitamins', 1)">&#10095;</button>
+                    </div>
+                    <div class="slider-container">
+                        <h4>Minerali</h4>
+                        <div class="slider-wrapper">
+                            <div class="table-container" id="micronutrients-minerals-table"></div>
+                        </div>
+                        <button class="slider-button prev" onclick="slideTable('minerals', -1)">&#10094;</button>
+                        <button class="slider-button next" onclick="slideTable('minerals', 1)">&#10095;</button>
+                    </div>
                 </section>
     </main>
 
