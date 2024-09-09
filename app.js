@@ -60,38 +60,52 @@ function calculateNutrition() {
         selenio: 0
     };
 
+    let nutrientSources = {};
+
     selectedFoods.forEach(food => {
         const portionRatio = food.currentPortion / food.portion;
         totalCalories += food.calories * portionRatio;
 
         for (let nutrient in food.nutrients) {
             if (totalNutrients.hasOwnProperty(nutrient)) {
-                totalNutrients[nutrient] += food.nutrients[nutrient] * portionRatio;
+                const amount = food.nutrients[nutrient] * portionRatio;
+                totalNutrients[nutrient] += amount;
+
+                if (!nutrientSources[nutrient]) {
+                    nutrientSources[nutrient] = [];
+                }
+                nutrientSources[nutrient].push({ name: food.name, emoji: food.emoji, amount: amount });
             }
         }
     });
 
+    // Sort nutrient sources and keep top 3
+    for (let nutrient in nutrientSources) {
+        nutrientSources[nutrient].sort((a, b) => b.amount - a.amount);
+        nutrientSources[nutrient] = nutrientSources[nutrient].slice(0, 3);
+    }
+
     // Aggiorna le barre di progressione
-    updateNutrientProgress('calories', totalCalories, desiredCalories);
-    updateNutrientProgress('protein', totalNutrients.proteine, dailyNutrientNeeds.proteine);
-    updateNutrientProgress('carbs', totalNutrients.carboidrati, dailyNutrientNeeds.carboidrati);
-    updateNutrientProgress('fat', totalNutrients.grassi_totali, dailyNutrientNeeds.grassi_totali);
-    updateNutrientProgress('fiber', totalNutrients.fibre, dailyNutrientNeeds.fibre);
-    updateNutrientProgress('saturated-fat', totalNutrients.grassi_saturi, dailyNutrientNeeds.grassi_saturi);
-    updateNutrientProgress('unsaturated-fat', totalNutrients.grassi_insaturi, dailyNutrientNeeds.grassi_insaturi);
-    updateNutrientProgress('vitamin-a', totalNutrients.vitaminaA, dailyNutrientNeeds.vitaminaA);
-    updateNutrientProgress('vitamin-c', totalNutrients.vitaminaC, dailyNutrientNeeds.vitaminaC);
-    updateNutrientProgress('vitamin-d', totalNutrients.vitaminaD, dailyNutrientNeeds.vitaminaD);
-    updateNutrientProgress('vitamin-e', totalNutrients.vitaminaE, dailyNutrientNeeds.vitaminaE);
-    updateNutrientProgress('vitamin-k', totalNutrients.vitaminaK, dailyNutrientNeeds.vitaminaK);
-    updateNutrientProgress('vitamin-b12', totalNutrients.vitaminaB12, dailyNutrientNeeds.vitaminaB12);
-    updateNutrientProgress('calcium', totalNutrients.calcio, dailyNutrientNeeds.calcio);
-    updateNutrientProgress('iron', totalNutrients.ferro, dailyNutrientNeeds.ferro);
-    updateNutrientProgress('magnesium', totalNutrients.magnesio, dailyNutrientNeeds.magnesio);
-    updateNutrientProgress('phosphorus', totalNutrients.fosforo, dailyNutrientNeeds.fosforo);
-    updateNutrientProgress('potassium', totalNutrients.potassio, dailyNutrientNeeds.potassio);
-    updateNutrientProgress('zinc', totalNutrients.zinco, dailyNutrientNeeds.zinco);
-    updateNutrientProgress('selenium', totalNutrients.selenio, dailyNutrientNeeds.selenio);
+    updateNutrientProgress('calories', totalCalories, desiredCalories, nutrientSources['calories']);
+    updateNutrientProgress('protein', totalNutrients.proteine, dailyNutrientNeeds.proteine, nutrientSources['proteine']);
+    updateNutrientProgress('carbs', totalNutrients.carboidrati, dailyNutrientNeeds.carboidrati, nutrientSources['carboidrati']);
+    updateNutrientProgress('fat', totalNutrients.grassi_totali, dailyNutrientNeeds.grassi_totali, nutrientSources['grassi_totali']);
+    updateNutrientProgress('fiber', totalNutrients.fibre, dailyNutrientNeeds.fibre, nutrientSources['fibre']);
+    updateNutrientProgress('saturated-fat', totalNutrients.grassi_saturi, dailyNutrientNeeds.grassi_saturi, nutrientSources['grassi_saturi']);
+    updateNutrientProgress('unsaturated-fat', totalNutrients.grassi_insaturi, dailyNutrientNeeds.grassi_insaturi, nutrientSources['grassi_insaturi']);
+    updateNutrientProgress('vitamin-a', totalNutrients.vitaminaA, dailyNutrientNeeds.vitaminaA, nutrientSources['vitaminaA']);
+    updateNutrientProgress('vitamin-c', totalNutrients.vitaminaC, dailyNutrientNeeds.vitaminaC, nutrientSources['vitaminaC']);
+    updateNutrientProgress('vitamin-d', totalNutrients.vitaminaD, dailyNutrientNeeds.vitaminaD, nutrientSources['vitaminaD']);
+    updateNutrientProgress('vitamin-e', totalNutrients.vitaminaE, dailyNutrientNeeds.vitaminaE, nutrientSources['vitaminaE']);
+    updateNutrientProgress('vitamin-k', totalNutrients.vitaminaK, dailyNutrientNeeds.vitaminaK, nutrientSources['vitaminaK']);
+    updateNutrientProgress('vitamin-b12', totalNutrients.vitaminaB12, dailyNutrientNeeds.vitaminaB12, nutrientSources['vitaminaB12']);
+    updateNutrientProgress('calcium', totalNutrients.calcio, dailyNutrientNeeds.calcio, nutrientSources['calcio']);
+    updateNutrientProgress('iron', totalNutrients.ferro, dailyNutrientNeeds.ferro, nutrientSources['ferro']);
+    updateNutrientProgress('magnesium', totalNutrients.magnesio, dailyNutrientNeeds.magnesio, nutrientSources['magnesio']);
+    updateNutrientProgress('phosphorus', totalNutrients.fosforo, dailyNutrientNeeds.fosforo, nutrientSources['fosforo']);
+    updateNutrientProgress('potassium', totalNutrients.potassio, dailyNutrientNeeds.potassio, nutrientSources['potassio']);
+    updateNutrientProgress('zinc', totalNutrients.zinco, dailyNutrientNeeds.zinco, nutrientSources['zinco']);
+    updateNutrientProgress('selenium', totalNutrients.selenio, dailyNutrientNeeds.selenio, nutrientSources['selenio']);
 
     // Normalizza per 100 kcal
     const normalizationFactor = 100 / totalCalories;
@@ -102,7 +116,6 @@ function calculateNutrition() {
 
     updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients);
 }
-
 function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients) {
     document.getElementById('total-calories').textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
 
@@ -159,9 +172,10 @@ function calculateScore(amount, nutrient) {
     return percentDailyNeed / calorieRatio;
 }
 
-function updateNutrientProgress(nutrientId, currentValue, targetValue) {
+function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) {
     const progressElement = document.getElementById(`${nutrientId}-progress`);
     const valueElement = document.getElementById(`${nutrientId}-value`);
+    const sourcesElement = document.getElementById(`${nutrientId}-foods`);
     const percentage = Math.min((currentValue / targetValue) * 100, 100);
     
     progressElement.style.width = `${percentage}%`;
@@ -176,6 +190,12 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue) {
     }
     
     valueElement.textContent = `${currentValue.toFixed(1)}/${targetValue} ${unit}`;
+
+    if (sourcesElement && sources && sources.length > 0) {
+        sourcesElement.innerHTML = sources.slice(0, 3).map(source => 
+            `<span class="food-emoji" title="${source.name}">${source.emoji}</span>`
+        ).join('');
+    }
 }
 
 function getNutrientUnit(nutrient) {
@@ -195,6 +215,53 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDesiredCalories();
 });
 
+
+
+
+let selectedFoods = [];
+const dailyCalories = 2600; // Fabbisogno calorico giornaliero
+
+const dailyNutrientNeeds = {
+    carboidrati: 300, fibre: 25, zuccheri: 50, proteine: 50, grassi_totali: 70,
+    grassi_saturi: 20, grassi_insaturi: 50, omega3: 1.6, omega6: 17,
+    vitaminaA: 900, vitaminaC: 90, vitaminaD: 20, vitaminaE: 15, vitaminaK: 120, vitaminaB12: 2.4,
+    calcio: 1000, ferro: 18, magnesio: 400, fosforo: 700, potassio: 3500, zinco: 11, selenio: 55
+};
+
+function initFoodCategories() {
+    const categoriesContainer = document.getElementById('food-categories');
+    categoriesContainer.innerHTML = ''; // Pulisce il contenitore
+
+    Object.keys(foodData).forEach(category => {
+        const categoryButton = document.createElement('button');
+        categoryButton.classList.add('food-category');
+        categoryButton.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+        categoryButton.addEventListener('click', () => showFoodList(category));
+        categoriesContainer.appendChild(categoryButton);
+    });
+}
+
+function showFoodList(category) {
+    const foodListContainer = document.getElementById('food-list');
+    foodListContainer.innerHTML = '';
+    foodListContainer.classList.remove('hidden');
+
+    foodData[category].forEach(food => {
+        const foodButton = document.createElement('button');
+        foodButton.classList.add('food-item');
+        foodButton.innerHTML = `${food.emoji} ${food.name}`;
+        foodButton.addEventListener('click', () => selectFood(food));
+        foodListContainer.appendChild(foodButton);
+    });
+}
+
+function selectFood(food) {
+    if (!selectedFoods.some(f => f.name === food.name)) {
+        selectedFoods.push({ ...food, currentPortion: food.servingSize });
+        updatePortionControls();
+        calculateNutrition();
+    }
+}
 
 const foodData = {
     frutta: [
@@ -411,50 +478,6 @@ const foodData = {
     ]
 }; 
 
-let selectedFoods = [];
-const dailyCalories = 2600; // Fabbisogno calorico giornaliero
-
-const dailyNutrientNeeds = {
-    carboidrati: 300, fibre: 25, zuccheri: 50, proteine: 50, grassi_totali: 70,
-    grassi_saturi: 20, grassi_insaturi: 50, omega3: 1.6, omega6: 17,
-    vitaminaA: 900, vitaminaC: 90, vitaminaD: 20, vitaminaE: 15, vitaminaK: 120, vitaminaB12: 2.4,
-    calcio: 1000, ferro: 18, magnesio: 400, fosforo: 700, potassio: 3500, zinco: 11, selenio: 55
-};
-
-function initFoodCategories() {
-    const categoriesContainer = document.getElementById('food-categories');
-    categoriesContainer.innerHTML = ''; // Pulisce il contenitore
-
-    Object.keys(foodData).forEach(category => {
-        const categoryButton = document.createElement('button');
-        categoryButton.classList.add('food-category');
-        categoryButton.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-        categoryButton.addEventListener('click', () => showFoodList(category));
-        categoriesContainer.appendChild(categoryButton);
-    });
-}
-
-function showFoodList(category) {
-    const foodListContainer = document.getElementById('food-list');
-    foodListContainer.innerHTML = '';
-    foodListContainer.classList.remove('hidden');
-
-    foodData[category].forEach(food => {
-        const foodButton = document.createElement('button');
-        foodButton.classList.add('food-item');
-        foodButton.innerHTML = `${food.emoji} ${food.name}`;
-        foodButton.addEventListener('click', () => selectFood(food));
-        foodListContainer.appendChild(foodButton);
-    });
-}
-
-function selectFood(food) {
-    if (!selectedFoods.some(f => f.name === food.name)) {
-        selectedFoods.push({ ...food, currentPortion: food.servingSize });
-        updatePortionControls();
-        calculateNutrition();
-    }
-}
 
 // Chiamare questa funzione dopo aver caricato la pagina
 document.addEventListener('DOMContentLoaded', () => {

@@ -28,11 +28,7 @@
             <p>Scopri il valore nutrizionale dei tuoi alimenti preferiti e crea la tua dieta perfetta!</p>
         </section>
 
-                <section id="calorie-input">
-                    <label for="desired-calories">Calorie desiderate:</label>
-                    <input type="number" id="desired-calories" min="0" step="100" value="2000">
-                    <button onclick="updateDesiredCalories()">Aggiorna</button>
-                </section>
+
                 
                 <section id="food-selection">
                     <h2>Seleziona gli alimenti</h2>
@@ -48,13 +44,14 @@
                 <section id="nutrition-summary">
                     <h3>Riassunto Nutrizionale</h3>
                     <div id="nutrient-progress">
-                        <div class="nutrient-bar">
-                            <span class="nutrient-label">Calorie</span>
-                            <div class="progress-bar">
-                                <div class="progress" id="calories-progress"></div>
-                            </div>
-                            <span class="nutrient-value" id="calories-value"></span>
-                        </div>
+<div class="nutrient-bar">
+    <span class="nutrient-label">Calorie</span>
+    <div class="progress-bar">
+        <div class="progress" id="calories-progress"></div>
+    </div>
+    <span class="nutrient-value" id="calories-value"></span>
+    <span class="contributing-foods" id="calories-foods"></span>
+</div>
                         <div class="nutrient-bar">
                             <span class="nutrient-label">Proteine</span>
                             <div class="progress-bar">
@@ -106,30 +103,7 @@
                             <span class="contributing-foods" id="vitamin-a-foods"></span>
                         </div>
                     </div>
-                    <div class="slider-container">
-                        <h4>Macronutrienti</h4>
-                        <div class="slider-wrapper">
-                            <div class="table-container" id="macronutrients-table"></div>
-                        </div>
-                        <button class="slider-button prev" onclick="slideTable('macro', -1)">&#10094;</button>
-                        <button class="slider-button next" onclick="slideTable('macro', 1)">&#10095;</button>
-                    </div>
-                    <div class="slider-container">
-                        <h4>Vitamine</h4>
-                        <div class="slider-wrapper">
-                            <div class="table-container" id="micronutrients-vitamins-table"></div>
-                        </div>
-                        <button class="slider-button prev" onclick="slideTable('vitamins', -1)">&#10094;</button>
-                        <button class="slider-button next" onclick="slideTable('vitamins', 1)">&#10095;</button>
-                    </div>
-                    <div class="slider-container">
-                        <h4>Minerali</h4>
-                        <div class="slider-wrapper">
-                            <div class="table-container" id="micronutrients-minerals-table"></div>
-                        </div>
-                        <button class="slider-button prev" onclick="slideTable('minerals', -1)">&#10094;</button>
-                        <button class="slider-button next" onclick="slideTable('minerals', 1)">&#10095;</button>
-                    </div>
+                    
                 </section>
     </main>
 

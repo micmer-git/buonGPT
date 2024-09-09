@@ -468,6 +468,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
+    flex-wrap: wrap;
 }
 
 .nutrient-label {
@@ -476,15 +477,16 @@ footer {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-right: 10px;
 }
 
 .progress-bar {
-    flex: 1;
+    flex: 1 1 150px;
     height: 20px;
     background-color: #e0e0e0;
     border-radius: 10px;
     overflow: hidden;
-    margin: 0 10px;
+    margin: 5px 10px;
 }
 
 .progress {
@@ -494,14 +496,43 @@ footer {
 }
 
 .nutrient-value {
-    flex: 0 0 100px;
+    flex: 0 0 80px;
     text-align: right;
     font-weight: 600;
     white-space: nowrap;
+    margin-left: 10px;
 }
 
 .contributing-foods {
     flex: 0 0 60px;
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     margin-left: 10px;
+}
+
+.food-emoji {
+    font-size: 1.2em;
+    margin-left: 2px;
+}
+
+@media (max-width: 600px) {
+    .nutrient-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nutrient-label {
+        flex: 0 0 auto;
+        margin-bottom: 5px;
+    }
+
+    .progress-bar {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .nutrient-value, .contributing-foods {
+        align-self: flex-end;
+    }
 }
