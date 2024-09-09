@@ -198,7 +198,7 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) 
 
     if (sourcesElement && sources && sources.length > 0) {
         sourcesElement.innerHTML = sources.slice(0, 3).map(source => 
-            `<span class="food-emoji" title="${source.name}">${source.emoji}</span>`
+            `<span class="food-emoji" title="${source.name}: ${source.amount.toFixed(1)}${getNutrientUnit(nutrientId)}">${source.emoji}</span>`
         ).join('');
     }
 }

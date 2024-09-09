@@ -332,6 +332,40 @@ footer {
     #food-list {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
+
+    /* Responsive design per header */
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+
+    /* Responsive design per la tabella */
+    .nutrient-table {
+        font-size: 14px;
+    }
+
+    .nutrient-table th,
+    .nutrient-table td {
+        padding: 5px;
+    }
+
+    .progress-bar {
+        width: 80px;
+    }
+
+    /* Assicurati che la tabella sia scrollabile orizzontalmente su schermi piccoli */
+    #nutrient-progress {
+        overflow-x: auto;
+    }
 }
 
 .fade-in {
