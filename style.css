@@ -207,7 +207,6 @@ main {
     flex: 0 0 50px;
     text-align: right;
 }
-
 #nutrition-summary table {
     width: 100%;
     border-collapse: collapse;
@@ -222,9 +221,17 @@ main {
 }
 
 #nutrition-summary th {
-    background-color: #f2f2f2;
+    background-color: var(--primary-color);
+    color: white;
 }
 
+.editable-target {
+    cursor: pointer;
+}
+
+.editable-target:hover {
+    background-color: #f0f0f0;
+}
 .slider-container {
     position: relative;
     overflow: hidden;
