@@ -1,6 +1,5 @@
 // Import necessary modules
 import { initFoodCategories, selectFood } from './foodSelection.js';
-import { calculateNutrition } from './nutritionCalculation.js';
 import { updatePortionControls, updateDesiredCalories } from './uiUpdates.js';
 import { updatePortionSize } from './uiUpdates.js';
 

@@ -1,6 +1,5 @@
 import { foodData } from './foodDatabase.js';
-import { updatePortionControls } from './uiUpdates.js';
-import { calculateNutrition } from './nutritionCalculation.js';
+import { updatePortionControls, calculateNutrition } from './uiUpdates.js';
 import { selectedFoods } from './app.js';
 
 function initFoodCategories() {
