@@ -1,7 +1,7 @@
 import { initFoodCategories, selectFood } from './foodSelection.js';
 import { updatePortionControls, updateDesiredCalories, updatePortionSize, updateNutritionSummary } from './uiUpdates.js';
 import { calculateNutrition } from './nutritionCalculation.js';
-
+import { initRecipeList } from './recipes.js';
 // Global variables
 let currentView = 'total';
 let selectedFoods = [];
@@ -63,6 +63,7 @@ function updateSelectedFoodsDisplay() {
 // Initialize the application
 function initApp() {
     initFoodCategories();
+    initRecipeList(); // Aggiungi questa linea
     updateSelectedFoodsDisplay();
     
     const desiredCaloriesInput = document.getElementById('desired-calories');
