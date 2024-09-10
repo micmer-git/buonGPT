@@ -8,7 +8,6 @@ let selectedFoods = [];
 let desiredCalories = 2000;
 
 // Make functions global
-window.updatePortionSize = updatePortionSize;
 window.updateNutrition = function() {
     calculateNutrition();
 };

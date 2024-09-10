@@ -32,7 +32,8 @@ function updatePortionSize(foodName, change) {
         const newMultiple = Math.max(0.25, Math.round(((food.currentPortion / food.servingSize) + change) * 4) / 4);
         food.currentPortion = Math.round(newMultiple * food.servingSize * 100) / 100;
         updatePortionControls();
-        calculateNutrition();
+        // Use the global updateNutrition function
+        window.updateNutrition();
     }
 }
 
@@ -52,8 +53,12 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
 
 function updateDesiredCalories() {
-    desiredCalories = parseInt(document.getElementById('desired-calories').value);
-    calculateNutrition();
+    const desiredCaloriesInput = document.getElementById('desired-calories');
+    if (desiredCaloriesInput) {
+        setDesiredCalories(parseInt(desiredCaloriesInput.value) || 2000);
+    } else {
+        console.warn('Desired calories input not found');
+    }
 }
 
 function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) {
