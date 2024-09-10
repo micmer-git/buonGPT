@@ -44,12 +44,32 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
     }
 
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
-    updateNutrientTable('macronutrients-table', 'Macronutrienti', ['carboidrati', 'proteine', 'grassi_totali'], nutrients);
-    updateNutrientTable('micronutrients-minerals-table', 'Micronutrienti - Minerali', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], nutrients);
-    updateNutrientTable('micronutrients-vitamins-table', 'Micronutrienti - Vitamine', ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'], nutrients);
+    updateNutrientTable('macronutrients', ['carboidrati', 'proteine', 'grassi_totali', 'fibre', 'zuccheri'], nutrients);
+    updateNutrientTable('vitamins', ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'], nutrients);
+    updateNutrientTable('minerals', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], nutrients);
 }
 
-
+function updateNutrientTable(tableId, nutrientList, nutrients) {
+    const table = document.getElementById(tableId);
+    if (table) {
+        const tbody = table.querySelector('tbody') || table.createTBody();
+        tbody.innerHTML = '';
+        nutrientList.forEach(nutrient => {
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>${nutrient}</td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress" id="${nutrient}-progress"></div>
+                        <span class="progress-text" id="${nutrient}-percentage"></span>
+                    </div>
+                </td>
+                <td id="${nutrient}-value" data-target="${nutrient}"></td>
+                <td id="${nutrient}-foods"></td>
+            `;
+        });
+    }
+}
 
 function updateDesiredCalories() {
     const desiredCaloriesInput = document.getElementById('desired-calories');
@@ -88,20 +108,18 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) 
     const valueElement = document.getElementById(`${nutrientId}-value`);
     const sourcesElement = document.getElementById(`${nutrientId}-foods`);
 
-    if (progressElement && percentageElement && valueElement) {
-        const percentage = Math.min((currentValue / targetValue) * 100, 100);
+    const percentage = Math.min((currentValue / targetValue) * 100, 100);
 
-        progressElement.style.width = `${percentage}%`;
-        percentageElement.textContent = `${percentage.toFixed(1)}%`;
-        valueElement.textContent = `${currentValue.toFixed(1)} / ${targetValue.toFixed(1)} ${getNutrientUnit(nutrientId)}`;
+    progressElement.style.width = `${percentage}%`;
+    percentageElement.textContent = `${percentage.toFixed(1)}%`;
+    valueElement.textContent = `${currentValue.toFixed(1)} / ${targetValue.toFixed(1)}`;
 
-        if (sourcesElement && sources && sources.length > 0) {
-            sourcesElement.innerHTML = sources.slice(0, 3).map(source =>
-                `<span class="food-contributor" title="${source.name}">
-                    ${source.emoji} ${source.amount.toFixed(1)}
-                </span>`
-            ).join('');
-        }
+    if (sourcesElement && sources && sources.length > 0) {
+        sourcesElement.innerHTML = sources.slice(0, 3).map(source =>
+            `<span class="food-contributor" title="${source.name}">
+                ${source.emoji} ${source.amount.toFixed(1)}
+            </span>`
+        ).join('');
     }
 }
 
