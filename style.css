@@ -152,3 +152,31 @@ main {
         height: 80px;
     }
 }
+
+.category-slider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.category-button-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.slider-arrow {
+    background: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.slider-arrow:hover {
+    box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+}
