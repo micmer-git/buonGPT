@@ -2,9 +2,7 @@
 import { initFoodCategories, selectFood } from './foodSelection.js';
 import { calculateNutrition } from './nutritionCalculation.js';
 import { updatePortionControls, updateDesiredCalories } from './uiUpdates.js';
-
-
- 
+import { dailyNutrientNeeds, getNutrientUnit } from './utils.js';
 
 // Global variables
 let currentView = 'total';
@@ -34,7 +32,8 @@ function updateNutrientTable(tableId, title, nutrients, nutrientValues) {
             </tr>
     `;
 
-    nutrients.forEach(nutrient => {
+    for (let i = 0; i < nutrients.length; i++) {
+        const nutrient = nutrients[i];
         const amount = nutrientValues[nutrient] || 0;
         const percentDailyNeed = (amount / dailyNutrientNeeds[nutrient]) * 100;
         const score = calculateScore(amount, nutrient);
@@ -47,7 +46,7 @@ function updateNutrientTable(tableId, title, nutrients, nutrientValues) {
                 <td>${score.toFixed(2)}</td>
             </tr>
         `;
-    });
+    }
 
     html += '</table>';
     table.innerHTML = html;
@@ -83,16 +82,11 @@ function selectFood(food) {
     }
 }
 
-
-
 // Event listener for page load
 document.addEventListener('DOMContentLoaded', () => {
     initFoodCategories();
     updateDesiredCalories();
 });
-
-
-
 
 // Export necessary functions and variables
 export { selectedFoods, desiredCalories, switchView, updateNutrientTable, selectFood };
