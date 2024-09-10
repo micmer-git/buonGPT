@@ -24,7 +24,23 @@ export function getDesiredCalories() {
     return desiredCalories;
 }
 
-// Function to update the selected foods display
+// Initialize the application
+function initApp() {
+    initFoodCategories();
+    updateSelectedFoodsDisplay(); // Add this line
+    
+    const desiredCaloriesInput = document.getElementById('desired-calories');
+    if (desiredCaloriesInput) {
+        desiredCaloriesInput.value = desiredCalories;
+        desiredCaloriesInput.addEventListener('change', () => {
+            setDesiredCalories(parseInt(desiredCaloriesInput.value) || 2000);
+        });
+    } else {
+        console.warn('Desired calories input not found');
+    }
+}
+
+// Add the new updateSelectedFoodsDisplay function
 function updateSelectedFoodsDisplay() {
     const container = document.getElementById('selected-foods-container');
     container.innerHTML = '';
@@ -32,10 +48,10 @@ function updateSelectedFoodsDisplay() {
     selectedFoods.forEach((food, index) => {
         const foodBox = document.createElement('div');
         foodBox.className = 'food-box';
-
+        
         const foodName = document.createElement('h3');
         foodName.textContent = food.name;
-
+        
         const portionInput = document.createElement('input');
         portionInput.type = 'number';
         portionInput.value = food.portion;
@@ -60,30 +76,14 @@ function updateSelectedFoodsDisplay() {
     });
 }
 
-// Update the selectFood function to call updateSelectedFoodsDisplay
+// Find the existing selectFood function and modify it like this:
 function selectFood(food) {
     selectedFoods.push(food);
-    updateSelectedFoodsDisplay();
+    updateSelectedFoodsDisplay(); // Add this line
     calculateNutrition();
-}
-
-// Initialize the application
-function initApp() {
-    initFoodCategories();
-    updateSelectedFoodsDisplay();
-
-    const desiredCaloriesInput = document.getElementById('desired-calories');
-    if (desiredCaloriesInput) {
-        desiredCaloriesInput.value = desiredCalories;
-        desiredCaloriesInput.addEventListener('change', () => {
-            setDesiredCalories(parseInt(desiredCaloriesInput.value) || 2000);
-        });
-    } else {
-        console.warn('Desired calories input not found');
-    }
 }
 
 // Call initApp when the page loads
 document.addEventListener('DOMContentLoaded', initApp);
 
-export { selectedFoods, currentView, updateNutritionSummary, selectFood };
+export { selectedFoods, currentView, updateNutritionSummary, selectFood, updateSelectedFoodsDisplay };
