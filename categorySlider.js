@@ -1,5 +1,5 @@
 import { foodData } from './foodDatabase.js';
-import { showFoodList } from './foodSelection.js';
+import { selectFood } from './foodSelection.js';
 
 let currentCategoryIndex = 0;
 
@@ -70,6 +70,20 @@ function updateCategoryButtons() {
     while (newButtons.firstChild) {
         buttonContainer.appendChild(newButtons.firstChild);
     }
+}
+
+function showFoodList(category) {
+    const foodListContainer = document.getElementById('food-list');
+    foodListContainer.innerHTML = '';
+    foodListContainer.classList.remove('hidden');
+
+    foodData[category].forEach(food => {
+        const foodButton = document.createElement('button');
+        foodButton.classList.add('food-item');
+        foodButton.innerHTML = `${food.emoji} ${food.name}`;
+        foodButton.addEventListener('click', () => selectFood(food));
+        foodListContainer.appendChild(foodButton);
+    });
 }
 
 export { initCategorySlider };
