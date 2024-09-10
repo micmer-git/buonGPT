@@ -65,7 +65,7 @@ function updateNutrientTable(tableId, nutrientList, nutrients) {
                     </div>
                 </td>
                 <td id="${nutrient}-value" data-target="${nutrient}"></td>
-                <td id="${nutrient}-foods"></td>
+                <td colspan="2" class="contributors" id="${nutrient}-foods"></td>
             `;
         });
     }
