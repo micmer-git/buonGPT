@@ -63,7 +63,6 @@ function updateSelectedFoodsDisplay() {
 // Initialize the application
 function initApp() {
     initFoodCategories();
-    initRecipeList(); // Aggiungi questa linea
     updateSelectedFoodsDisplay();
     
     const desiredCaloriesInput = document.getElementById('desired-calories');

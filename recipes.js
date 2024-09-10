@@ -68,4 +68,18 @@ function initRecipeList() {
     }
 }
 
-export { selectRecipe, initRecipeList };
+function showRecipeList() {
+    const foodListContainer = document.getElementById('food-list');
+    foodListContainer.innerHTML = '';
+    foodListContainer.classList.remove('hidden');
+
+    Object.keys(recipes).forEach(recipeName => {
+        const recipeButton = document.createElement('button');
+        recipeButton.classList.add('food-item');
+        recipeButton.textContent = recipeName;
+        recipeButton.addEventListener('click', () => selectRecipe(recipeName));
+        foodListContainer.appendChild(recipeButton);
+    });
+}
+
+export { selectRecipe, initRecipeList, showRecipeList };
