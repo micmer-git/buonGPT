@@ -1,8 +1,10 @@
-import { selectedFoods, desiredCalories, updateNutritionSummary } from './app.js';
+import { selectedFoods, updateNutritionSummary, getDesiredCalories } from './app.js';
 import { dailyNutrientNeeds } from './utils.js';
 import { updateNutrientProgress } from './uiUpdates.js';
 
 function calculateNutrition() {
+    const desiredCalories = getDesiredCalories();
+
     let totalCalories = 0;
     let totalNutrients = {
         proteine: 0,
