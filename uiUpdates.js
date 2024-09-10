@@ -1,4 +1,4 @@
-import { selectedFoods, desiredCalories } from './app.js';
+import { selectedFoods, getCurrentView, setDesiredCalories } from './app.js';
 import { getNutrientUnit } from './utils.js';
 
 
@@ -43,6 +43,7 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
         totalCaloriesElement.textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
     }
 
+    const currentView = getCurrentView();
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
     updateNutrientTable('macronutrients-table', 'Macronutrienti', ['carboidrati', 'proteine', 'grassi_totali'], nutrients);
     updateNutrientTable('micronutrients-minerals-table', 'Micronutrienti - Minerali', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], nutrients);

@@ -1,3 +1,4 @@
+// Import necessary modules
 import { initFoodCategories, selectFood } from './foodSelection.js';
 import { updatePortionControls, updateDesiredCalories, updatePortionSize, updateNutritionSummary } from './uiUpdates.js';
 import { calculateNutrition } from './nutritionCalculation.js';
@@ -13,14 +14,27 @@ window.updateNutrition = function() {
     calculateNutrition();
 };
 
+// Function to update desiredCalories
+function setDesiredCalories(value) {
+    desiredCalories = value;
+    calculateNutrition();
+}
+
+// Function to get currentView
+function getCurrentView() {
+    return currentView;
+}
+
 // Initialize the application
 function initApp() {
     initFoodCategories();
     
     const desiredCaloriesInput = document.getElementById('desired-calories');
     if (desiredCaloriesInput) {
-        updateDesiredCalories();
-        desiredCaloriesInput.addEventListener('change', updateDesiredCalories);
+        desiredCaloriesInput.value = desiredCalories;
+        desiredCaloriesInput.addEventListener('change', () => {
+            setDesiredCalories(parseInt(desiredCaloriesInput.value) || 2000);
+        });
     } else {
         console.warn('Desired calories input not found');
     }
@@ -29,4 +43,4 @@ function initApp() {
 // Call initApp when the page loads
 document.addEventListener('DOMContentLoaded', initApp);
 
-export { selectedFoods, desiredCalories, currentView, updateNutritionSummary };
+export { selectedFoods, getCurrentView, updateNutritionSummary, setDesiredCalories };

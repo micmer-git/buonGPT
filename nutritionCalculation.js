@@ -1,8 +1,11 @@
-import { selectedFoods, desiredCalories, updateNutritionSummary } from './app.js';
+import { selectedFoods, updateNutritionSummary, getCurrentView } from './app.js';
 import { dailyNutrientNeeds } from './utils.js';
 import { updateNutrientProgress } from './uiUpdates.js';
 
 function calculateNutrition() {
+    // Get the current value of desiredCalories
+    const desiredCalories = document.getElementById('desired-calories').value || 2000;
+
     let totalCalories = 0;
     let totalNutrients = {
         proteine: 0,
