@@ -27,7 +27,6 @@ export function getDesiredCalories() {
 // Initialize the application
 function initApp() {
     initFoodCategories();
-    updateSelectedFoodsDisplay(); // Add this line
     
     const desiredCaloriesInput = document.getElementById('desired-calories');
     if (desiredCaloriesInput) {
@@ -40,50 +39,14 @@ function initApp() {
     }
 }
 
-// Add the new updateSelectedFoodsDisplay function
-function updateSelectedFoodsDisplay() {
-    const container = document.getElementById('selected-foods-container');
-    container.innerHTML = '';
-
-    selectedFoods.forEach((food, index) => {
-        const foodBox = document.createElement('div');
-        foodBox.className = 'food-box';
-        
-        const foodName = document.createElement('h3');
-        foodName.textContent = food.name;
-        
-        const portionInput = document.createElement('input');
-        portionInput.type = 'number';
-        portionInput.value = food.portion;
-        portionInput.min = '0';
-        portionInput.addEventListener('change', (e) => {
-            updatePortionSize(index, parseFloat(e.target.value));
-        });
-
-        const removeButton = document.createElement('button');
-        removeButton.className = 'remove-food';
-        removeButton.textContent = '×';
-        removeButton.addEventListener('click', () => {
-            selectedFoods.splice(index, 1);
-            updateSelectedFoodsDisplay();
-            calculateNutrition();
-        });
-
-        foodBox.appendChild(removeButton);
-        foodBox.appendChild(foodName);
-        foodBox.appendChild(portionInput);
-        container.appendChild(foodBox);
-    });
-}
-
-// Find the existing selectFood function and modify it like this:
-function selectFood(food) {
-    selectedFoods.push(food);
-    updateSelectedFoodsDisplay(); // Add this line
-    calculateNutrition();
-}
-
 // Call initApp when the page loads
 document.addEventListener('DOMContentLoaded', initApp);
 
-export { selectedFoods, currentView, updateNutritionSummary, selectFood, updateSelectedFoodsDisplay };
+export { selectedFoods, currentView, updateNutritionSummary, updateSelectedFoodsDisplay };
+
+// Add this line to wrap the imported selectFood function
+window.selectFood = (food) => {
+    selectFood(food);
+    updateSelectedFoodsDisplay();
+    calculateNutrition();
+};
