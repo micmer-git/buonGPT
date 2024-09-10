@@ -60,6 +60,28 @@ function updateDesiredCalories() {
     }
 }
 
+function initNutrientToggles() {
+    const toggleButtons = document.querySelectorAll('.toggle-btn');
+    const nutrientTables = document.querySelectorAll('.nutrient-table');
+
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTable = button.getAttribute('data-target');
+            
+            toggleButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            nutrientTables.forEach(table => {
+                if (table.id === targetTable) {
+                    table.classList.remove('hidden');
+                } else {
+                    table.classList.add('hidden');
+                }
+            });
+        });
+    });
+}
+
 function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) {
     const progressElement = document.getElementById(`${nutrientId}-progress`);
     const percentageElement = document.getElementById(`${nutrientId}-percentage`);
@@ -82,4 +104,4 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) 
 }
 
 
-export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary, updatePortionSize };
+export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary, updatePortionSize, initNutrientToggles };

@@ -17,8 +17,248 @@
     </header>
 
     <main>
+        <section id="food-selection">
+            <h2>Seleziona gli alimenti</h2>
+            <div id="food-categories"></div>
+            <div id="food-list" class="hidden"></div>
+        </section>
+        
+        <section id="portion-control">
+            <h3>Controllo Porzioni</h3>
+            <div id="portion-sliders"></div>
+        </section>
+        
+        <section id="nutrition-summary">
+            <h3>Riassunto Nutrizionale</h3>
+            <div id="desired-calories-container">
+                <label for="desired-calories">Calorie Desiderate:</label>
+                <input type="number" id="desired-calories" value="2000">
+            </div>
+            <div id="nutrient-toggles">
+                <button class="toggle-btn active" data-target="macronutrients">Macronutrienti</button>
+                <button class="toggle-btn" data-target="vitamins">Vitamine</button>
+                <button class="toggle-btn" data-target="minerals">Minerali</button>
+            </div>
+            <div id="nutrient-progress">
+                <table class="nutrient-table" id="macronutrients">
+                    <thead>
+                        <tr>
+                            <th>Nutriente</th>
+                            <th>Progresso</th>
+                            <th>Valore</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Calorie</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="calories-progress"></div>
+                                    <span class="progress-text" id="calories-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="calories-value" data-target="calories"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="calories-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Proteine</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="protein-progress"></div>
+                                    <span class="progress-text" id="protein-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="protein-value" data-target="protein"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="protein-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Carboidrati</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="carbs-progress"></div>
+                                    <span class="progress-text" id="carbs-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="carbs-value" data-target="carbs"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="carbs-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Grassi</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="fat-progress"></div>
+                                    <span class="progress-text" id="fat-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="fat-value" data-target="fat"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="fat-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Fibre</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="fiber-progress"></div>
+                                    <span class="progress-text" id="fiber-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="fiber-value" data-target="fiber"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="fiber-foods"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
 
+                <table class="nutrient-table hidden" id="vitamins">
+                    <thead>
+                        <tr>
+                            <th>Nutriente</th>
+                            <th>Progresso</th>
+                            <th>Valore</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Vitamina A</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="vitamin-a-progress"></div>
+                                    <span class="progress-text" id="vitamin-a-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="vitamin-a-value" data-target="vitamin-a"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="vitamin-a-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Vitamina C</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="vitamin-c-progress"></div>
+                                    <span class="progress-text" id="vitamin-c-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="vitamin-c-value" data-target="vitamin-c"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="vitamin-c-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Vitamina D</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="vitamin-d-progress"></div>
+                                    <span class="progress-text" id="vitamin-d-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="vitamin-d-value" data-target="vitamin-d"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="vitamin-d-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Vitamina E</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="vitamin-e-progress"></div>
+                                    <span class="progress-text" id="vitamin-e-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="vitamin-e-value" data-target="vitamin-e"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="vitamin-e-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Vitamina K</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="vitamin-k-progress"></div>
+                                    <span class="progress-text" id="vitamin-k-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="vitamin-k-value" data-target="vitamin-k"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="vitamin-k-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Vitamina B12</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="vitamin-b12-progress"></div>
+                                    <span class="progress-text" id="vitamin-b12-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="vitamin-b12-value" data-target="vitamin-b12"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="vitamin-b12-foods"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
 
+                <table class="nutrient-table hidden" id="minerals">
+                    <thead>
+                        <tr>
+                            <th>Nutriente</th>
+                            <th>Progresso</th>
+                            <th>Valore</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Calcio</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="calcium-progress"></div>
+                                    <span class="progress-text" id="calcium-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="calcium-value" data-target="calcium"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="calcium-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Ferro</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="iron-progress"></div>
+                                    <span class="progress-text" id="iron-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="iron-value" data-target="iron"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="iron-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Magnesio</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="magnesium-progress"></div>
+                                    <span class="progress-text" id="magnesium-percentage"></span>
+                                </div>
+                            </td>
+                            <td id="magnesium-value" data-target="magnesium"></td>
+                        </tr>
+                        <tr class="top-contributors">
+                            <td colspan="3">Top 3 Contribuenti: <span id="magnesium-foods"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Fosforo</td>
+                            <td>
+                                <div class="progress-bar">
                 
                 <section id="food-selection">
                     <h2>Seleziona gli alimenti</h2>
