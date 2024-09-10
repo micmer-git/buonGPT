@@ -17,7 +17,139 @@
     </header>
 
     <main>
+        <section id="food-selection">
+            <h2>Seleziona gli alimenti</h2>
+            <div id="food-categories"></div>
+            <div id="food-list" class="hidden"></div>
+        </section>
+        
+        <section id="portion-control">
+            <h3>Controllo Porzioni</h3>
+            <div id="portion-sliders"></div>
+        </section>
+        
+        <section id="nutrition-summary">
+            <h3>Riassunto Nutrizionale</h3>
+            <div id="desired-calories-container">
+                <label for="desired-calories">Calorie Desiderate:</label>
+                <input type="number" id="desired-calories" value="2000">
+            </div>
+            <div id="nutrient-toggles">
+                <button class="toggle-btn active" data-target="macronutrients">Macronutrienti</button>
+                <button class="toggle-btn" data-target="vitamins">Vitamine</button>
+                <button class="toggle-btn" data-target="minerals">Minerali</button>
+            </div>
+            <div id="nutrient-progress">
+                <table class="nutrient-table" id="macronutrients">
+                    <thead>
+                        <tr>
+                            <th>Nutriente</th>
+                            <th>Progresso e Valore</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Calorie</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="calories-progress"></div>
+                                    <span class="progress-text" id="calories-percentage"></span>
+                                </div>
+                                <span id="calories-value" data-target="calories"></span>
+                                <div class="top-contributors" id="calories-foods"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Proteine</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="protein-progress"></div>
+                                    <span class="progress-text" id="protein-percentage"></span>
+                                </div>
+                                <span id="protein-value" data-target="protein"></span>
+                                <div class="top-contributors" id="protein-foods"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Carboidrati</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="carbs-progress"></div>
+                                    <span class="progress-text" id="carbs-percentage"></span>
+                                </div>
+                                <span id="carbs-value" data-target="carbs"></span>
+                                <div class="top-contributors" id="carbs-foods"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Grassi</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="fat-progress"></div>
+                                    <span class="progress-text" id="fat-percentage"></span>
+                                </div>
+                                <span id="fat-value" data-target="fat"></span>
+                                <div class="top-contributors" id="fat-foods"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Fibre</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="fiber-progress"></div>
+                                    <span class="progress-text" id="fiber-percentage"></span>
+                                </div>
+                                <span id="fiber-value" data-target="fiber"></span>
+                                <div class="top-contributors" id="fiber-foods"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
+                <table class="nutrient-table hidden" id="vitamins">
+                    <thead>
+                        <tr>
+                            <th>Nutriente</th>
+                            <th>Progresso e Valore</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Vitamina A</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="vitamin-a-progress"></div>
+                                    <span class="progress-text" id="vitamin-a-percentage"></span>
+                                </div>
+                                <span id="vitamin-a-value" data-target="vitamin-a"></span>
+                                <div class="top-contributors" id="vitamin-a-foods"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vitamina C</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="vitamin-c-progress"></div>
+                                    <span class="progress-text" id="vitamin-c-percentage"></span>
+                                </div>
+                                <span id="vitamin-c-value" data-target="vitamin-c"></span>
+                                <div class="top-contributors" id="vitamin-c-foods"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vitamina D</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress" id="vitamin-d-progress"></div>
+                                    <span class="progress-text" id="vitamin-d-percentage"></span>
+                                </div>
+                                <span id="vitamin-d-value" data-target="vitamin-d"></span>
+                                <div class="top-contributors" id="vitamin-d-foods"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vitamina E</td>
+                            <td>
 
                 
                 <section id="food-selection">
