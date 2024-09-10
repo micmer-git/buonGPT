@@ -9,6 +9,72 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="manifest" href="./manifest.json">
+    <style>
+        .nutrient-toggles-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .nutrient-toggles-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .toggle-btn {
+            flex: 0 0 auto;
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-btn.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .macro-circles-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .macro-circle {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        .macro-circle svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .macro-info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .macro-percentage {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .macro-name {
+            font-size: 12px;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -32,8 +98,10 @@
                 
                 <section id="nutrition-summary">
                     <h3>Riassunto Nutrizionale</h3>
+                    <div id="macro-circles" class="macro-circles-container"></div>
+                    <div id="nutrient-toggles" class="nutrient-toggles-container"></div>
                     <div id="nutrient-progress">
-                        <table class="nutrient-table">
+                        <table class="nutrient-table" id="macronutrients">
                             <thead>
                                 <tr>
                                     <th>Nutriente</th>
@@ -120,6 +188,18 @@
                                     <td id="unsaturated-fat-value" data-target="unsaturated-fat"></td>
                                     <td id="unsaturated-fat-foods"></td>
                                 </tr>
+                            </tbody>
+                        </table>
+                        <table class="nutrient-table hidden" id="vitamins">
+                            <thead>
+                                <tr>
+                                    <th>Nutriente</th>
+                                    <th>Progresso</th>
+                                    <th>Valore</th>
+                                    <th>Top 3 Contribuenti</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <tr>
                                     <td>Vitamina A</td>
                                     <td>
@@ -186,6 +266,18 @@
                                     <td id="vitamin-b12-value" data-target="vitamin-b12"></td>
                                     <td id="vitamin-b12-foods"></td>
                                 </tr>
+                            </tbody>
+                        </table>
+                        <table class="nutrient-table hidden" id="minerals">
+                            <thead>
+                                <tr>
+                                    <th>Nutriente</th>
+                                    <th>Progresso</th>
+                                    <th>Valore</th>
+                                    <th>Top 3 Contribuenti</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <tr>
                                     <td>Calcio</td>
                                     <td>
