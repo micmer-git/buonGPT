@@ -165,6 +165,14 @@ export const foodData = {
     ],
     proteine: [
         {
+            name: "Proteine in polvere", emoji: "💪", calories: 400, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 15, fibre: 0, zuccheri: 4, proteine: 80, grassi_totali: 5,
+                grassi_saturi: 2, grassi_insaturi: 2.5, omega3: 0.1, omega6: 0.5,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.3, vitaminaK: 0.5, vitaminaB12: 2.5,
+                calcio: 300, ferro: 5, magnesio: 50, fosforo: 400, potassio: 500, zinco: 2, selenio: 10
+            }
+        },
+        {
             name: "Pollo", emoji: "🍗", calories: 165, portion: 150, servingSize: 150, nutrients: {
                 carboidrati: 0, fibre: 0, zuccheri: 0, proteine: 46.5, grassi_totali: 5.4,
                 grassi_saturi: 1.5, grassi_insaturi: 3.15, omega3: 0.15, omega6: 1.2,
@@ -357,19 +365,151 @@ export const foodData = {
     ],
     frutta_secca: [
         {
-            name: "Mandorle", emoji: "🥜", calories: 579, portion: 100, servingSize: 100, nutrients: {
-                carboidrati: 21.6, fibre: 12.5, zuccheri: 4.4, proteine: 21.2, grassi_totali: 49.9,
-                grassi_saturi: 3.8, grassi_insaturi: 43.3, omega3: 0, omega6: 12.1,
-                vitaminaA: 0, vitaminaC: 0.3, vitaminaD: 0, vitaminaE: 25.6, vitaminaK: 0, vitaminaB12: 0,
-                calcio: 269, ferro: 3.7, magnesio: 270, fosforo: 481, potassio: 733, zinco: 3.1, selenio: 4.1
+            name: "Mandorle", emoji: "🥜", calories: 579, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 10.8, fibre: 6.25, zuccheri: 2.2, proteine: 10.6, grassi_totali: 24.95,
+                grassi_saturi: 1.9, grassi_insaturi: 21.65, omega3: 0.05, omega6: 6.05,
+                vitaminaA: 0, vitaminaC: 0.15, vitaminaD: 0, vitaminaE: 12.8, vitaminaK: 0, vitaminaB12: 0,
+                calcio: 134.5, ferro: 1.85, magnesio: 135, fosforo: 240.5, potassio: 366.5, zinco: 1.55, selenio: 2.05
             }
         },
         {
-            name: "Noci", emoji: "🌰", calories: 654, portion: 100, servingSize: 100, nutrients: {
-                carboidrati: 13.7, fibre: 6.7, zuccheri: 2.6, proteine: 15.2, grassi_totali: 65.2,
-                grassi_saturi: 6.1, grassi_insaturi: 57.4, omega3: 9.1, omega6: 38.1,
-                vitaminaA: 1, vitaminaC: 1.3, vitaminaD: 0, vitaminaE: 0.7, vitaminaK: 2.7, vitaminaB12: 0,
-                calcio: 98, ferro: 2.9, magnesio: 158, fosforo: 346, potassio: 441, zinco: 3.1, selenio: 4.9
+            name: "Noci", emoji: "🌰", calories: 654, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 6.85, fibre: 3.35, zuccheri: 1.3, proteine: 7.6, grassi_totali: 32.6,
+                grassi_saturi: 3.05, grassi_insaturi: 28.7, omega3: 4.55, omega6: 19.05,
+                vitaminaA: 0.5, vitaminaC: 0.65, vitaminaD: 0, vitaminaE: 0.35, vitaminaK: 1.35, vitaminaB12: 0,
+                calcio: 49, ferro: 1.45, magnesio: 79, fosforo: 173, potassio: 220.5, zinco: 1.55, selenio: 2.45
+            }
+        },
+        {
+            name: "Anacardi", emoji: "🥜", calories: 553, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 15, fibre: 1.8, zuccheri: 2.5, proteine: 8.3, grassi_totali: 22.5,
+                grassi_saturi: 4.5, grassi_insaturi: 16.5, omega3: 0.05, omega6: 6.85,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.3, vitaminaK: 9.3, vitaminaB12: 0,
+                calcio: 20, ferro: 3.3, magnesio: 135, fosforo: 270, potassio: 300, zinco: 1.5, selenio: 6.0
+            }
+        },
+        {
+            name: "Arachidi", emoji: "🥜", calories: 567, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 12.5, fibre: 4.75, zuccheri: 1.4, proteine: 12.5, grassi_totali: 25.5,
+                grassi_saturi: 3.5, grassi_insaturi: 21, omega3: 0, omega6: 7.2,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 2.6, vitaminaK: 0, vitaminaB12: 0,
+                calcio: 35, ferro: 1.8, magnesio: 95, fosforo: 180, potassio: 300, zinco: 1.2, selenio: 3.5
+            }
+        },
+        {
+            name: "Pistacchi", emoji: "🥜", calories: 562, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 15.5, fibre: 5.5, zuccheri: 2.0, proteine: 10.3, grassi_totali: 22.5,
+                grassi_saturi: 2.85, grassi_insaturi: 18.6, omega3: 0.05, omega6: 6.1,
+                vitaminaA: 15, vitaminaC: 1.5, vitaminaD: 0, vitaminaE: 2.6, vitaminaK: 13, vitaminaB12: 0,
+                calcio: 60, ferro: 2, magnesio: 60, fosforo: 270, potassio: 480, zinco: 1.2, selenio: 5
+            }
+        }
+    ],
+    snack: [
+        {
+            name: "Barretta di cereali", emoji: "🍫", calories: 150, portion: 40, servingSize: 40, nutrients: {
+                carboidrati: 27, fibre: 2.5, zuccheri: 12, proteine: 3, grassi_totali: 4,
+                grassi_saturi: 1, grassi_insaturi: 2.5, omega3: 0.1, omega6: 0.3,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.3, vitaminaK: 0.5, vitaminaB12: 0.1,
+                calcio: 15, ferro: 1.2, magnesio: 20, fosforo: 80, potassio: 120, zinco: 0.3, selenio: 5
+            }
+        },
+        {
+            name: "Patatine fritte", emoji: "🍟", calories: 312, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 34, fibre: 3, zuccheri: 0.5, proteine: 3.5, grassi_totali: 19,
+                grassi_saturi: 3.5, grassi_insaturi: 12.5, omega3: 0.3, omega6: 7,
+                vitaminaA: 0, vitaminaC: 7.5, vitaminaD: 0, vitaminaE: 1.5, vitaminaK: 10, vitaminaB12: 0,
+                calcio: 10, ferro: 0.9, magnesio: 25, fosforo: 90, potassio: 400, zinco: 0.3, selenio: 0.2
+            }
+        },
+        {
+            name: "Popcorn", emoji: "🍿", calories: 110, portion: 25, servingSize: 25, nutrients: {
+                carboidrati: 22, fibre: 4, zuccheri: 0.2, proteine: 3, grassi_totali: 1.5,
+                grassi_saturi: 0.3, grassi_insaturi: 0.9, omega3: 0.05, omega6: 0.5,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.1, vitaminaK: 0.1, vitaminaB12: 0,
+                calcio: 1, ferro: 0.6, magnesio: 40, fosforo: 90, potassio: 80, zinco: 0.5, selenio: 0.1
+            }
+        },
+        {
+            name: "Cioccolato fondente", emoji: "🍫", calories: 546, portion: 30, servingSize: 30, nutrients: {
+                carboidrati: 33, fibre: 8, zuccheri: 16, proteine: 4, grassi_totali: 36,
+                grassi_saturi: 21, grassi_insaturi: 12, omega3: 0.1, omega6: 1.5,
+                vitaminaA: 5, vitaminaC: 0.3, vitaminaD: 0, vitaminaE: 1.2, vitaminaK: 5, vitaminaB12: 0.1,
+                calcio: 25, ferro: 6, magnesio: 90, fosforo: 150, potassio: 350, zinco: 1.5, selenio: 4
+            }
+        },
+        {
+            name: "Biscotti", emoji: "🍪", calories: 502, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 66, fibre: 2.5, zuccheri: 22, proteine: 6, grassi_totali: 24,
+                grassi_saturi: 10, grassi_insaturi: 12, omega3: 0.05, omega6: 1,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.6, vitaminaK: 2, vitaminaB12: 0,
+                calcio: 30, ferro: 2, magnesio: 20, fosforo: 100, potassio: 100, zinco: 0.4, selenio: 5
+            }
+        },
+        {
+            name: "Frutta secca mista", emoji: "🥜", calories: 607, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 20, fibre: 4, zuccheri: 5, proteine: 15, grassi_totali: 55,
+                grassi_saturi: 6, grassi_insaturi: 46, omega3: 1, omega6: 15,
+                vitaminaA: 0, vitaminaC: 1, vitaminaD: 0, vitaminaE: 10, vitaminaK: 4, vitaminaB12: 0,
+                calcio: 70, ferro: 3, magnesio: 130, fosforo: 250, potassio: 600, zinco: 3, selenio: 7
+            }
+        },
+        {
+            name: "Crackers", emoji: "🥨", calories: 403, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 65, fibre: 2, zuccheri: 1.5, proteine: 9, grassi_totali: 11,
+                grassi_saturi: 1.8, grassi_insaturi: 7.2, omega3: 0.1, omega6: 2.4,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.6, vitaminaK: 2, vitaminaB12: 0,
+                calcio: 20, ferro: 1.5, magnesio: 30, fosforo: 100, potassio: 200, zinco: 1, selenio: 10
+            }
+        },
+        {
+            name: "Muffin", emoji: "🧁", calories: 340, portion: 80, servingSize: 80, nutrients: {
+                carboidrati: 48, fibre: 1, zuccheri: 28, proteine: 6, grassi_totali: 14,
+                grassi_saturi: 4, grassi_insaturi: 8, omega3: 0.1, omega6: 2,
+                vitaminaA: 10, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.5, vitaminaK: 1.5, vitaminaB12: 0.2,
+                calcio: 30, ferro: 2, magnesio: 15, fosforo: 100, potassio: 120, zinco: 0.5, selenio: 2
+            }
+        },
+        {
+            name: "Barretta proteica", emoji: "🍫", calories: 200, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 18, fibre: 5, zuccheri: 5, proteine: 20, grassi_totali: 6,
+                grassi_saturi: 2, grassi_insaturi: 3, omega3: 0.1, omega6: 0.5,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 1, vitaminaK: 2, vitaminaB12: 0.5,
+                calcio: 50, ferro: 2, magnesio: 30, fosforo: 100, potassio: 100, zinco: 1.5, selenio: 3
+            }
+        },
+        {
+            name: "Mandorle tostate", emoji: "🥜", calories: 575, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 10, fibre: 6, zuccheri: 2, proteine: 10, grassi_totali: 50,
+                grassi_saturi: 4, grassi_insaturi: 45, omega3: 0.2, omega6: 10,
+                vitaminaA: 0, vitaminaC: 0.5, vitaminaD: 0, vitaminaE: 25, vitaminaK: 1, vitaminaB12: 0,
+                calcio: 130, ferro: 1.5, magnesio: 130, fosforo: 250, potassio: 600, zinco: 2.5, selenio: 3
+            }
+        },
+        {
+            name: "Strudel", emoji: "🥧", calories: 340, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 50, fibre: 3, zuccheri: 25, proteine: 3, grassi_totali: 14,
+                grassi_saturi: 4, grassi_insaturi: 9, omega3: 0.1, omega6: 1.2,
+                vitaminaA: 10, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.5, vitaminaK: 1, vitaminaB12: 0,
+                calcio: 10, ferro: 0.7, magnesio: 15, fosforo: 60, potassio: 150, zinco: 0.4, selenio: 3
+            }
+        },
+        {
+            name: "Torta di mele", emoji: "🍰", calories: 250, portion: 100, servingSize: 100, nutrients: {
+                carboidrati: 35, fibre: 2, zuccheri: 18, proteine: 2.5, grassi_totali: 10,
+                grassi_saturi: 4, grassi_insaturi: 5, omega3: 0.1, omega6: 0.8,
+                vitaminaA: 15, vitaminaC: 0.5, vitaminaD: 0, vitaminaE: 0.2, vitaminaK: 0.3, vitaminaB12: 0,
+                calcio: 20, ferro: 1, magnesio: 12, fosforo: 50, potassio: 120, zinco: 0.3, selenio: 2
+            }
+        }
+    ],
+    extra: [
+        {
+            name: "Cacao in polvere 100%", emoji: "🍫", calories: 228, portion: 50, servingSize: 50, nutrients: {
+                carboidrati: 58, fibre: 33, zuccheri: 1.5, proteine: 19.6, grassi_totali: 13.7,
+                grassi_saturi: 8.1, grassi_insaturi: 4.8, omega3: 0.1, omega6: 0.6,
+                vitaminaA: 0, vitaminaC: 0, vitaminaD: 0, vitaminaE: 0.1, vitaminaK: 3, vitaminaB12: 0,
+                calcio: 150, ferro: 13.9, magnesio: 376, fosforo: 734, potassio: 1527, zinco: 6.8, selenio: 14.3
             }
         }
     ]
