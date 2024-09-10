@@ -1,4 +1,4 @@
-import { selectedFoods, getCurrentView, setDesiredCalories } from './app.js';
+import { selectedFoods, desiredCalories } from './app.js';
 import { getNutrientUnit } from './utils.js';
 
 
@@ -43,7 +43,6 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
         totalCaloriesElement.textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
     }
 
-    const currentView = getCurrentView();
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
     updateNutrientTable('macronutrients-table', 'Macronutrienti', ['carboidrati', 'proteine', 'grassi_totali'], nutrients);
     updateNutrientTable('micronutrients-minerals-table', 'Micronutrienti - Minerali', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], nutrients);
@@ -63,18 +62,22 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) 
     const valueElement = document.getElementById(`${nutrientId}-value`);
     const sourcesElement = document.getElementById(`${nutrientId}-foods`);
 
-    const percentage = Math.min((currentValue / targetValue) * 100, 100);
+    if (progressElement && percentageElement && valueElement) {
+        // Ensure targetValue is a number and not zero
+        const safeTargetValue = typeof targetValue === 'number' && targetValue !== 0 ? targetValue : 100;
+        const percentage = Math.min((currentValue / safeTargetValue) * 100, 100);
 
-    progressElement.style.width = `${percentage}%`;
-    percentageElement.textContent = `${percentage.toFixed(1)}%`;
-    valueElement.textContent = `${currentValue.toFixed(1)} / ${targetValue.toFixed(1)}`;
+        progressElement.style.width = `${percentage}%`;
+        percentageElement.textContent = `${percentage.toFixed(1)}%`;
+        valueElement.textContent = `${currentValue.toFixed(1)} / ${safeTargetValue.toFixed(1)}`;
 
-    if (sourcesElement && sources && sources.length > 0) {
-        sourcesElement.innerHTML = sources.slice(0, 3).map(source =>
-            `<span class="food-contributor" title="${source.name}">
-                ${source.emoji} ${source.amount.toFixed(1)}
-            </span>`
-        ).join('');
+        if (sourcesElement && sources && sources.length > 0) {
+            sourcesElement.innerHTML = sources.slice(0, 3).map(source =>
+                `<span class="food-contributor" title="${source.name}">
+                    ${source.emoji} ${source.amount.toFixed(1)}
+                </span>`
+            ).join('');
+        }
     }
 }
 

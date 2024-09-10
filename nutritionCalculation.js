@@ -1,11 +1,8 @@
-import { selectedFoods, updateNutritionSummary, getCurrentView } from './app.js';
+import { selectedFoods, desiredCalories, updateNutritionSummary } from './app.js';
 import { dailyNutrientNeeds } from './utils.js';
 import { updateNutrientProgress } from './uiUpdates.js';
 
 function calculateNutrition() {
-    // Get the current value of desiredCalories
-    const desiredCalories = document.getElementById('desired-calories').value || 2000;
-
     let totalCalories = 0;
     let totalNutrients = {
         proteine: 0,
@@ -56,25 +53,23 @@ function calculateNutrition() {
 
     // Aggiorna le barre di progressione
     updateNutrientProgress('calories', totalCalories, desiredCalories, nutrientSources['calories']);
-    updateNutrientProgress('protein', totalNutrients.proteine, dailyNutrientNeeds.proteine, nutrientSources['proteine']);
-    updateNutrientProgress('carbs', totalNutrients.carboidrati, dailyNutrientNeeds.carboidrati, nutrientSources['carboidrati']);
-    updateNutrientProgress('fat', totalNutrients.grassi_totali, dailyNutrientNeeds.grassi_totali, nutrientSources['grassi_totali']);
-    updateNutrientProgress('fiber', totalNutrients.fibre, dailyNutrientNeeds.fibre, nutrientSources['fibre']);
-    updateNutrientProgress('saturated-fat', totalNutrients.grassi_saturi, dailyNutrientNeeds.grassi_saturi, nutrientSources['grassi_saturi']);
-    updateNutrientProgress('unsaturated-fat', totalNutrients.grassi_insaturi, dailyNutrientNeeds.grassi_insaturi, nutrientSources['grassi_insaturi']);
-    updateNutrientProgress('vitamin-a', totalNutrients.vitaminaA, dailyNutrientNeeds.vitaminaA, nutrientSources['vitaminaA']);
-    updateNutrientProgress('vitamin-c', totalNutrients.vitaminaC, dailyNutrientNeeds.vitaminaC, nutrientSources['vitaminaC']);
-    updateNutrientProgress('vitamin-d', totalNutrients.vitaminaD, dailyNutrientNeeds.vitaminaD, nutrientSources['vitaminaD']);
-    updateNutrientProgress('vitamin-e', totalNutrients.vitaminaE, dailyNutrientNeeds.vitaminaE, nutrientSources['vitaminaE']);
-    updateNutrientProgress('vitamin-k', totalNutrients.vitaminaK, dailyNutrientNeeds.vitaminaK, nutrientSources['vitaminaK']);
-    updateNutrientProgress('vitamin-b12', totalNutrients.vitaminaB12, dailyNutrientNeeds.vitaminaB12, nutrientSources['vitaminaB12']);
-    updateNutrientProgress('calcium', totalNutrients.calcio, dailyNutrientNeeds.calcio, nutrientSources['calcio']);
-    updateNutrientProgress('iron', totalNutrients.ferro, dailyNutrientNeeds.ferro, nutrientSources['ferro']);
-    updateNutrientProgress('magnesium', totalNutrients.magnesio, dailyNutrientNeeds.magnesio, nutrientSources['magnesio']);
-    updateNutrientProgress('phosphorus', totalNutrients.fosforo, dailyNutrientNeeds.fosforo, nutrientSources['fosforo']);
-    updateNutrientProgress('potassium', totalNutrients.potassio, dailyNutrientNeeds.potassio, nutrientSources['potassio']);
-    updateNutrientProgress('zinc', totalNutrients.zinco, dailyNutrientNeeds.zinco, nutrientSources['zinco']);
-    updateNutrientProgress('selenium', totalNutrients.selenio, dailyNutrientNeeds.selenio, nutrientSources['selenio']);
+    
+    const nutrientsToUpdate = [
+        'proteine', 'carboidrati', 'grassi_totali', 'fibre', 'grassi_saturi', 'grassi_insaturi',
+        'vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12',
+        'calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'
+    ];
+
+    nutrientsToUpdate.forEach(nutrient => {
+        if (dailyNutrientNeeds.hasOwnProperty(nutrient)) {
+            updateNutrientProgress(
+                nutrient,
+                totalNutrients[nutrient],
+                dailyNutrientNeeds[nutrient],
+                nutrientSources[nutrient]
+            );
+        }
+    });
 
     // Normalizza per 100 kcal
     const normalizationFactor = 100 / totalCalories;
