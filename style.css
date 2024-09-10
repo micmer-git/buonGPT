@@ -153,16 +153,33 @@ main {
     }
 }
 
-.category-slider {
+.category-slider,
+.food-slider,
+.portion-slider {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
 }
 
-.category-button-container {
+.button-container {
     display: flex;
     gap: 1rem;
+}
+
+.slider-button {
+    background: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.slider-button:hover {
+    box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
 }
 
 .slider-arrow {
@@ -179,4 +196,10 @@ main {
 
 .slider-arrow:hover {
     box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+}
+
+.portion-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
