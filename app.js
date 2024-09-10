@@ -88,3 +88,28 @@ window.selectFood = (food) => {
     updateSelectedFoodsDisplay();
     calculateNutrition();
 };
+
+function initNutrientToggles() {
+    const toggleButtons = document.querySelectorAll('.toggle-btn');
+    const nutrientTables = document.querySelectorAll('.nutrient-table');
+
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTable = button.getAttribute('data-target');
+            
+            toggleButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            nutrientTables.forEach(table => {
+                if (table.id === targetTable) {
+                    table.classList.remove('hidden');
+                } else {
+                    table.classList.add('hidden');
+                }
+            });
+        });
+    });
+}
+
+// Chiamala quando la pagina si carica
+document.addEventListener('DOMContentLoaded', initNutrientToggles);
