@@ -49,8 +49,13 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
 
 function updateDesiredCalories() {
-    desiredCalories = parseInt(document.getElementById('desired-calories').value);
-    calculateNutrition();
+    const desiredCaloriesInput = document.getElementById('desired-calories');
+    if (desiredCaloriesInput) {
+        desiredCalories = parseInt(desiredCaloriesInput.value) || 2000; // Default to 2000 if parsing fails
+        calculateNutrition();
+    } else {
+        console.warn('Desired calories input not found');
+    }
 }
 
 function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) {
