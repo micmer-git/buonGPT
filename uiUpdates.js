@@ -32,7 +32,6 @@ function updatePortionSize(foodName, change) {
         const newMultiple = Math.max(0.25, Math.round(((food.currentPortion / food.servingSize) + change) * 4) / 4);
         food.currentPortion = Math.round(newMultiple * food.servingSize * 100) / 100;
         updatePortionControls();
-        // Use the global updateNutrition function
         window.updateNutrition();
     }
 }
