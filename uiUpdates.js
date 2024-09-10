@@ -88,22 +88,46 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) 
     const valueElement = document.getElementById(`${nutrientId}-value`);
     const sourcesElement = document.getElementById(`${nutrientId}-foods`);
 
-    if (progressElement && percentageElement && valueElement) {
-        const percentage = Math.min((currentValue / targetValue) * 100, 100);
+    const percentage = Math.min((currentValue / targetValue) * 100, 100);
 
-        progressElement.style.width = `${percentage}%`;
-        percentageElement.textContent = `${percentage.toFixed(1)}%`;
-        valueElement.textContent = `${currentValue.toFixed(1)} / ${targetValue.toFixed(1)} ${getNutrientUnit(nutrientId)}`;
+    progressElement.style.width = `${percentage}%`;
+    percentageElement.textContent = `${percentage.toFixed(1)}%`;
+    valueElement.textContent = `${currentValue.toFixed(1)} / ${targetValue.toFixed(1)}`;
 
-        if (sourcesElement && sources && sources.length > 0) {
-            sourcesElement.innerHTML = sources.slice(0, 3).map(source =>
-                `<span class="food-contributor" title="${source.name}">
-                    ${source.emoji} ${source.amount.toFixed(1)}
-                </span>`
-            ).join('');
-        }
+    if (sourcesElement && sources && sources.length > 0) {
+        sourcesElement.innerHTML = sources.slice(0, 3).map(source =>
+            `<span class="food-contributor" title="${source.name}">
+                ${source.emoji} ${source.amount.toFixed(1)}
+            </span>`
+        ).join('');
     }
 }
 
 
-export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary, updatePortionSize, initNutrientToggles };
+function updateNutrientTable(tableId, tableName, nutrientList, nutrients) {
+    const table = document.getElementById(tableId);
+    if (table) {
+        const tbody = table.querySelector('tbody') || table.createTBody();
+        tbody.innerHTML = '';
+        nutrientList.forEach(nutrient => {
+            const row = tbody.insertRow();
+            const currentValue = nutrients[nutrient];
+            const targetValue = dailyNutrientNeeds[nutrient];
+            const percentage = Math.min((currentValue / targetValue) * 100, 100);
+            
+            row.innerHTML = `
+                <td>${nutrient}</td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress" id="${nutrient}-progress" style="width: ${percentage}%"></div>
+                        <span class="progress-text" id="${nutrient}-percentage">${percentage.toFixed(1)}%</span>
+                    </div>
+                </td>
+                <td id="${nutrient}-value">${currentValue.toFixed(1)} / ${targetValue.toFixed(1)} ${getNutrientUnit(nutrient)}</td>
+                <td id="${nutrient}-foods"></td>
+            `;
+        });
+    }
+}
+
+export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary, updatePortionSize, initNutrientToggles, updateNutrientTable };
