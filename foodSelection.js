@@ -6,6 +6,14 @@ function initFoodCategories() {
     const categoriesContainer = document.getElementById('food-categories');
     categoriesContainer.innerHTML = '';
 
+    // Add recipes button
+    const recipesButton = document.createElement('button');
+    recipesButton.classList.add('food-category');
+    recipesButton.textContent = 'Ricette';
+    recipesButton.addEventListener('click', showRecipeList);
+    categoriesContainer.appendChild(recipesButton);
+
+    // Add food category buttons
     Object.keys(foodData).forEach(category => {
         const categoryButton = document.createElement('button');
         categoryButton.classList.add('food-category');
