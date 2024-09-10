@@ -1,6 +1,7 @@
 import { selectedFoods, currentView, setDesiredCalories, getDesiredCalories } from './app.js';
 import { getNutrientUnit } from './utils.js';
 
+
 function updatePortionControls() {
     const portionContainer = document.getElementById('portion-sliders');
     portionContainer.innerHTML = '';
@@ -103,4 +104,30 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) 
 }
 
 
-export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary, updatePortionSize, initNutrientToggles };
+function updateNutrientTable(tableId, tableName, nutrientList, nutrients) {
+    const table = document.getElementById(tableId);
+    if (table) {
+        const tbody = table.querySelector('tbody') || table.createTBody();
+        tbody.innerHTML = '';
+        nutrientList.forEach(nutrient => {
+            const row = tbody.insertRow();
+            const currentValue = nutrients[nutrient];
+            const targetValue = dailyNutrientNeeds[nutrient];
+            const percentage = Math.min((currentValue / targetValue) * 100, 100);
+            
+            row.innerHTML = `
+                <td>${nutrient}</td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress" id="${nutrient}-progress" style="width: ${percentage}%"></div>
+                        <span class="progress-text" id="${nutrient}-percentage">${percentage.toFixed(1)}%</span>
+                    </div>
+                </td>
+                <td id="${nutrient}-value">${currentValue.toFixed(1)} / ${targetValue.toFixed(1)} ${getNutrientUnit(nutrient)}</td>
+                <td id="${nutrient}-foods"></td>
+            `;
+        });
+    }
+}
+
+export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary, updatePortionSize, initNutrientToggles, updateNutrientTable };
