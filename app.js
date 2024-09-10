@@ -2,7 +2,10 @@
 import { initFoodCategories, selectFood } from './foodSelection.js';
 import { calculateNutrition } from './nutritionCalculation.js';
 import { updatePortionControls, updateDesiredCalories } from './uiUpdates.js';
-import { dailyNutrientNeeds, getNutrientUnit } from './utils.js';
+import { updatePortionSize } from './uiUpdates.js';
+
+// Make updatePortionSize global
+window.updatePortionSize = updatePortionSize;
 
 // Global variables
 let currentView = 'total';
@@ -32,8 +35,7 @@ function updateNutrientTable(tableId, title, nutrients, nutrientValues) {
             </tr>
     `;
 
-    for (let i = 0; i < nutrients.length; i++) {
-        const nutrient = nutrients[i];
+    nutrients.forEach(nutrient => {
         const amount = nutrientValues[nutrient] || 0;
         const percentDailyNeed = (amount / dailyNutrientNeeds[nutrient]) * 100;
         const score = calculateScore(amount, nutrient);
@@ -46,7 +48,7 @@ function updateNutrientTable(tableId, title, nutrients, nutrientValues) {
                 <td>${score.toFixed(2)}</td>
             </tr>
         `;
-    }
+    });
 
     html += '</table>';
     table.innerHTML = html;
@@ -59,30 +61,7 @@ function calculateScore(amount, nutrient) {
     return percentDailyNeed / calorieRatio;
 }
 
-// Initialize food categories
-function initFoodCategories() {
-    const categoriesContainer = document.getElementById('food-categories');
-    categoriesContainer.innerHTML = '';
-
-    Object.keys(foodData).forEach(category => {
-        const categoryButton = document.createElement('button');
-        categoryButton.classList.add('food-category');
-        categoryButton.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-        categoryButton.addEventListener('click', () => showFoodList(category));
-        categoriesContainer.appendChild(categoryButton);
-    });
-}
-
-// Function to select a food item
-function selectFood(food) {
-    if (!selectedFoods.some(f => f.name === food.name)) {
-        selectedFoods.push({ ...food, currentPortion: food.servingSize });
-        updatePortionControls();
-        calculateNutrition();
-    }
-}
-
-// Event listener for page load
+// Call initFoodCategories when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     initFoodCategories();
     updateDesiredCalories();
