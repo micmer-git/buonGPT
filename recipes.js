@@ -1,7 +1,6 @@
 import { foodData } from './foodDatabase.js';
 import { selectFood } from './foodSelection.js';
-import { updateSelectedFoodsDisplay } from './app.js';
-import { calculateNutrition } from './nutritionCalculation.js';
+import { updateSelectedFoodsDisplay, calculateNutrition } from './app.js';
 
 // Database delle ricette
 const recipes = {
@@ -69,4 +68,4 @@ function initRecipeList() {
     }
 }
 
-export { selectRecipe, initRecipeList };
+export { selectRecipe, initRecipeList, recipes };
