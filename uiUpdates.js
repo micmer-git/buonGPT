@@ -38,7 +38,10 @@ function updatePortionSize(foodName, change) {
 
 
 function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients) {
-    document.getElementById('total-calories').textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
+    const totalCaloriesElement = document.getElementById('total-calories');
+    if (totalCaloriesElement) {
+        totalCaloriesElement.textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
+    }
 
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
     updateNutrientTable('macronutrients-table', 'Macronutrienti', ['carboidrati', 'proteine', 'grassi_totali'], nutrients);
@@ -49,13 +52,8 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
 
 function updateDesiredCalories() {
-    const desiredCaloriesInput = document.getElementById('desired-calories');
-    if (desiredCaloriesInput) {
-        desiredCalories = parseInt(desiredCaloriesInput.value) || 2000; // Default to 2000 if parsing fails
-        calculateNutrition();
-    } else {
-        console.warn('Desired calories input not found');
-    }
+    desiredCalories = parseInt(document.getElementById('desired-calories').value);
+    calculateNutrition();
 }
 
 function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) {

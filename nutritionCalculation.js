@@ -1,6 +1,6 @@
-import { selectedFoods, desiredCalories } from './app.js';
+import { selectedFoods, desiredCalories, updateNutritionSummary } from './app.js';
 import { dailyNutrientNeeds } from './utils.js';
-import { updateNutrientProgress, updateNutritionSummary } from './uiUpdates.js';
+import { updateNutrientProgress } from './uiUpdates.js';
 
 function calculateNutrition() {
     let totalCalories = 0;
