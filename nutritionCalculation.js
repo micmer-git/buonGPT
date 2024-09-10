@@ -4,7 +4,6 @@ import { updateNutrientProgress } from './uiUpdates.js';
 
 function calculateNutrition() {
     const desiredCalories = getDesiredCalories();
-
     let totalCalories = 0;
     let totalNutrients = {
         proteine: 0,
@@ -28,32 +27,35 @@ function calculateNutrition() {
         selenio: 0
     };
 
-    let nutrientSources = {};
+    let nutrientSources = {
+        calories: []
+    };
+
+    for (let nutrient in totalNutrients) {
+        nutrientSources[nutrient] = [];
+    }
 
     selectedFoods.forEach(food => {
         const portionRatio = food.currentPortion / food.portion;
-        totalCalories += food.calories * portionRatio;
+        const caloriesAmount = food.calories * portionRatio;
+        totalCalories += caloriesAmount;
+
+        nutrientSources['calories'].push({ name: food.name, emoji: food.emoji, amount: caloriesAmount });
 
         for (let nutrient in food.nutrients) {
             if (totalNutrients.hasOwnProperty(nutrient)) {
                 const amount = food.nutrients[nutrient] * portionRatio;
                 totalNutrients[nutrient] += amount;
-
-                if (!nutrientSources[nutrient]) {
-                    nutrientSources[nutrient] = [];
-                }
                 nutrientSources[nutrient].push({ name: food.name, emoji: food.emoji, amount: amount });
             }
         }
     });
 
-    // Sort nutrient sources and keep top 3
     for (let nutrient in nutrientSources) {
         nutrientSources[nutrient].sort((a, b) => b.amount - a.amount);
         nutrientSources[nutrient] = nutrientSources[nutrient].slice(0, 3);
     }
 
-    // Aggiorna le barre di progressione
     updateNutrientProgress('calories', totalCalories, desiredCalories, nutrientSources['calories']);
     updateNutrientProgress('protein', totalNutrients.proteine, dailyNutrientNeeds.proteine, nutrientSources['proteine']);
     updateNutrientProgress('carbs', totalNutrients.carboidrati, dailyNutrientNeeds.carboidrati, nutrientSources['carboidrati']);

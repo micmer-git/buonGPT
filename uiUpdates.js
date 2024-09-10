@@ -1,4 +1,4 @@
-import { selectedFoods, currentView, setDesiredCalories, getDesiredCalories } from './app.js';
+import { selectedFoods, desiredCalories } from './app.js';
 import { getNutrientUnit } from './utils.js';
 
 
@@ -32,8 +32,7 @@ function updatePortionSize(foodName, change) {
         const newMultiple = Math.max(0.25, Math.round(((food.currentPortion / food.servingSize) + change) * 4) / 4);
         food.currentPortion = Math.round(newMultiple * food.servingSize * 100) / 100;
         updatePortionControls();
-        // Use the global updateNutrition function
-        window.updateNutrition();
+        calculateNutrition();
     }
 }
 
@@ -53,12 +52,8 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
 
 function updateDesiredCalories() {
-    const desiredCaloriesInput = document.getElementById('desired-calories');
-    if (desiredCaloriesInput) {
-        setDesiredCalories(parseInt(desiredCaloriesInput.value) || 2000);
-    } else {
-        console.warn('Desired calories input not found');
-    }
+    desiredCalories = parseInt(document.getElementById('desired-calories').value);
+    calculateNutrition();
 }
 
 function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) {
