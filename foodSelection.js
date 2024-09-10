@@ -33,7 +33,8 @@ function selectFood(food) {
     if (!selectedFoods.some(f => f.name === food.name)) {
         selectedFoods.push({ ...food, currentPortion: food.servingSize });
         updatePortionControls();
-        calculateNutrition();
+        // Use the global updateNutrition function instead
+        window.updateNutrition();
     }
 }
 
