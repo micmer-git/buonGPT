@@ -1,4 +1,3 @@
-// Import necessary modules
 import { initFoodCategories, selectFood } from './foodSelection.js';
 import { updatePortionControls, updateDesiredCalories, updatePortionSize, updateNutritionSummary } from './uiUpdates.js';
 import { calculateNutrition } from './nutritionCalculation.js';
@@ -15,14 +14,14 @@ window.updateNutrition = function() {
 };
 
 // Function to update desiredCalories
-function setDesiredCalories(value) {
+export function setDesiredCalories(value) {
     desiredCalories = value;
     calculateNutrition();
 }
 
-// Function to get currentView
-function getCurrentView() {
-    return currentView;
+// Function to get desiredCalories
+export function getDesiredCalories() {
+    return desiredCalories;
 }
 
 // Initialize the application
@@ -43,4 +42,4 @@ function initApp() {
 // Call initApp when the page loads
 document.addEventListener('DOMContentLoaded', initApp);
 
-export { selectedFoods, getCurrentView, updateNutritionSummary, setDesiredCalories };
+export { selectedFoods, currentView, updateNutritionSummary };

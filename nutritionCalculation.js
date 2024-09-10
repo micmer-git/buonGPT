@@ -72,22 +72,6 @@ function calculateNutrition() {
     updateNutrientProgress('potassium', totalNutrients.potassio, dailyNutrientNeeds.potassio, nutrientSources['potassio']);
     updateNutrientProgress('zinc', totalNutrients.zinco, dailyNutrientNeeds.zinco, nutrientSources['zinco']);
     updateNutrientProgress('selenium', totalNutrients.selenio, dailyNutrientNeeds.selenio, nutrientSources['selenio']);
-    const nutrientsToUpdate = [
-        'proteine', 'carboidrati', 'grassi_totali', 'fibre', 'grassi_saturi', 'grassi_insaturi',
-        'vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12',
-        'calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'
-    ];
-
-    nutrientsToUpdate.forEach(nutrient => {
-        if (dailyNutrientNeeds.hasOwnProperty(nutrient)) {
-            updateNutrientProgress(
-                nutrient,
-                totalNutrients[nutrient],
-                dailyNutrientNeeds[nutrient],
-                nutrientSources[nutrient]
-            );
-        }
-    });
 
     // Normalizza per 100 kcal
     const normalizationFactor = 100 / totalCalories;
