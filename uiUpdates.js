@@ -1,4 +1,4 @@
-import { selectedFoods, currentView, setDesiredCalories, getDesiredCalories } from './app.js';
+import { selectedFoods, desiredCalories } from './app.js';
 import { getNutrientUnit } from './utils.js';
 
 
@@ -53,12 +53,8 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
 
 function updateDesiredCalories() {
-    const desiredCaloriesInput = document.getElementById('desired-calories');
-    if (desiredCaloriesInput) {
-        setDesiredCalories(parseInt(desiredCaloriesInput.value) || 2000);
-    } else {
-        console.warn('Desired calories input not found');
-    }
+    desiredCalories = parseInt(document.getElementById('desired-calories').value);
+    calculateNutrition();
 }
 
 function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) {
