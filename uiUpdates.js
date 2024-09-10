@@ -1,5 +1,4 @@
 import { selectedFoods, desiredCalories } from './app.js';
-import { calculateNutrition } from './nutritionCalculation.js';
 import { getNutrientUnit } from './utils.js';
 
 
