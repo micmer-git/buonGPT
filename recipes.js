@@ -1,6 +1,7 @@
 import { foodData } from './foodDatabase.js';
 import { selectFood } from './foodSelection.js';
-import { updateSelectedFoodsDisplay, calculateNutrition } from './app.js';
+import { updateSelectedFoodsDisplay } from './app.js';
+import { calculateNutrition } from './nutritionCalculation.js';
 
 // Database delle ricette
 const recipes = {
@@ -68,18 +69,4 @@ function initRecipeList() {
     }
 }
 
-function showRecipeList() {
-    const foodListContainer = document.getElementById('food-list');
-    foodListContainer.innerHTML = '';
-    foodListContainer.classList.remove('hidden');
-
-    Object.keys(recipes).forEach(recipeName => {
-        const recipeButton = document.createElement('button');
-        recipeButton.classList.add('food-item');
-        recipeButton.textContent = recipeName;
-        recipeButton.addEventListener('click', () => selectRecipe(recipeName));
-        foodListContainer.appendChild(recipeButton);
-    });
-}
-
-export { selectRecipe, initRecipeList, showRecipeList };
+export { selectRecipe, initRecipeList };

@@ -80,7 +80,7 @@ function initApp() {
 document.addEventListener('DOMContentLoaded', initApp);
 
 // Export the necessary functions and variables
-export { selectedFoods, currentView, updateNutritionSummary, updateSelectedFoodsDisplay };
+export { selectedFoods, currentView, updateNutritionSummary, updateSelectedFoodsDisplay, calculateNutrition };
 
 // Add this line to wrap the imported selectFood function
 window.selectFood = (food) => {
