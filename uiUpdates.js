@@ -75,4 +75,4 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) 
 }
 
 
-export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary };
+export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary, updatePortionSize };
