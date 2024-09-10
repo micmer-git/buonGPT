@@ -1,4 +1,4 @@
-import { selectedFoods, desiredCalories } from './app.js';
+import { selectedFoods, currentView, setDesiredCalories, getDesiredCalories } from './app.js';
 import { getNutrientUnit } from './utils.js';
 
 
