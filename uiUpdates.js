@@ -44,9 +44,26 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
     }
 
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
-    updateNutrientTable('macronutrients', ['carboidrati', 'proteine', 'grassi_totali', 'fibre', 'zuccheri'], nutrients);
-    updateNutrientTable('vitamins', ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'], nutrients);
-    updateNutrientTable('minerals', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], nutrients);
+    const nutrientTable = document.getElementById('nutrient-table');
+    if (nutrientTable) {
+        const tbody = nutrientTable.querySelector('tbody');
+        tbody.innerHTML = '';
+        for (const nutrient in nutrients) {
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>${nutrient}</td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress" id="${nutrient}-progress"></div>
+                        <span class="progress-text" id="${nutrient}-percentage"></span>
+                    </div>
+                </td>
+                <td id="${nutrient}-value">${nutrients[nutrient].toFixed(2)}</td>
+                <td id="${nutrient}-foods"></td>
+            `;
+            updateNutrientProgress(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient]);
+        }
+    }
 }
 
 function updateNutrientTable(tableId, nutrientList, nutrients) {
