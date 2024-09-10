@@ -50,32 +50,6 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 }
 
 
-function updateNutrientTable(tableId, tableName, nutrientList, nutrients) {
-    const table = document.getElementById(tableId);
-    if (table) {
-        const tbody = table.querySelector('tbody') || table.createTBody();
-        tbody.innerHTML = '';
-        nutrientList.forEach(nutrient => {
-            const row = tbody.insertRow();
-            const currentValue = nutrients[nutrient] || 0;
-            const targetValue = dailyNutrientNeeds[nutrient] || 100; // Fallback to 100 if not defined
-            const percentage = Math.min((currentValue / targetValue) * 100, 100);
-
-            row.innerHTML = `
-                <td>${nutrient}</td>
-                <td>
-                    <div class="progress-bar">
-                        <div class="progress" id="${nutrient}-progress" style="width: ${percentage}%"></div>
-                        <span class="progress-text" id="${nutrient}-percentage">${percentage.toFixed(1)}%</span>
-                    </div>
-                </td>
-                <td id="${nutrient}-value">${currentValue.toFixed(1)} / ${targetValue.toFixed(1)} ${getNutrientUnit(nutrient)}</td>
-                <td id="${nutrient}-foods"></td>
-            `;
-        });
-    }
-}
-
 
 function updateDesiredCalories() {
     const desiredCaloriesInput = document.getElementById('desired-calories');
@@ -130,4 +104,4 @@ function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) 
 }
 
 
-export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary, updatePortionSize, initNutrientToggles, updateNutrientTable };
+export { updatePortionControls, updateDesiredCalories, updateNutrientProgress, updateNutritionSummary, updatePortionSize, initNutrientToggles };
