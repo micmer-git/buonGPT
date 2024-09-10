@@ -1,6 +1,5 @@
 import { selectedFoods, currentView, setDesiredCalories, getDesiredCalories } from './app.js';
 import { getNutrientUnit } from './utils.js';
-import { dailyNutrientNeeds } from './utils.js';
 
 function updatePortionControls() {
     const portionContainer = document.getElementById('portion-sliders');
