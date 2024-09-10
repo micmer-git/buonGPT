@@ -63,7 +63,13 @@ function updateSelectedFoodsDisplay() {
 // Initialize the application
 function initApp() {
     initFoodCategories();
-    updateSelectedFoodsDisplay();
+    
+    const container = document.getElementById('selected-foods-container');
+    if (container) {
+        updateSelectedFoodsDisplay();
+    } else {
+        console.warn('Selected foods container not found');
+    }
     
     const desiredCaloriesInput = document.getElementById('desired-calories');
     if (desiredCaloriesInput) {
@@ -77,10 +83,7 @@ function initApp() {
 }
 
 // Call initApp when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    initApp();
-    initNutrientToggles();
-});
+document.addEventListener('DOMContentLoaded', initApp);
 
 // Export the necessary functions and variables
 export { selectedFoods, currentView, updateNutritionSummary, updateSelectedFoodsDisplay, calculateNutrition };
