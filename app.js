@@ -3,6 +3,7 @@ import { updatePortionControls, updateDesiredCalories, updatePortionSize, update
 import { calculateNutrition } from './nutritionCalculation.js';
 import { initRecipeList } from './recipes.js';
 import { initCategorySlider } from './categorySlider.js';
+
 // Global variables
 let currentView = 'total';
 let selectedFoods = [];

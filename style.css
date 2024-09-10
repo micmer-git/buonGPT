@@ -153,53 +153,101 @@ main {
     }
 }
 
-.category-slider,
-.food-slider,
-.portion-slider {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
+.centered-text {
+    text-align: center;
 }
 
-.button-container {
-    display: flex;
-    gap: 1rem;
+.nutrient-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
 }
 
-.slider-button {
+.nutrient-table th,
+.nutrient-table td {
+    padding: 10px;
+    text-align: center;
+}
+
+.progress-bar {
+    position: relative;
     background: var(--primary-color);
-    border: none;
-    border-radius: 30px;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
-    transition: all 0.3s ease;
-}
-
-.slider-button:hover {
+    border-radius: 15px;
+    overflow: hidden;
     box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
 }
 
-.slider-arrow {
-    background: var(--primary-color);
+.progress {
+    height: 20px;
+    background: linear-gradient(to right, var(--secondary-color), #4a90e2);
+    border-radius: 15px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.contributors {
+    font-size: 0.9em;
+}
+
+/* Style for buttons */
+button {
+    margin: 10px;
+    padding: 10px 20px;
     border: none;
+    border-radius: 5px;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4a90e2;
+}
+
+/* Center buttons container */
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.sliders-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.slider-wrapper {
+    width: 80%;
+    max-width: 300px;
+}
+
+input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    background: var(--primary-color);
+    outline: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 1.2rem;
+    background: var(--secondary-color);
     cursor: pointer;
-    box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
-    transition: all 0.3s ease;
-}
-
-.slider-arrow:hover {
-    box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-}
-
-.portion-control {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    box-shadow: -100vw 0 0 100vw var(--secondary-color);
 }
