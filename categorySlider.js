@@ -46,7 +46,7 @@ function createCategoryButton(category) {
 
 function createArrowButton(text, onClick) {
     const button = document.createElement('button');
-    button.className = 'slider-arrow';
+    button.className = 'slider-arrow neumorphic';
     button.textContent = text;
     button.addEventListener('click', onClick);
     return button;

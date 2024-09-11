@@ -131,7 +131,7 @@ main {
 }
 
 .nutrient-table th, .nutrient-table td {
-    padding: 15px;
+    padding: 8px;
     text-align: left;
     border-bottom: 1px solid var(--shadow-dark);
 }
