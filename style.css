@@ -397,12 +397,15 @@ input[type="range"]::-webkit-slider-thumb {
 .portion-control {
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-bottom: 10px;
 }
 
 .portion-label {
-    flex: 0 0 150px;
-    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
 }
 
 .portion-buttons {
@@ -420,28 +423,24 @@ input[type="range"]::-webkit-slider-thumb {
     align-items: center;
     font-size: 18px;
     font-weight: bold;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.portion-buttons button:hover {
+    box-shadow: inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
 }
 
 .portion-value {
-    margin: 0 10px;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
-.portion-slider {
-    width: 150px;
-    -webkit-appearance: none;
-    background: var(--primary-color);
-    outline: none;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-}
-
-.portion-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--secondary-color);
-    cursor: pointer;
-    box-shadow: -100vw 0 0 100vw var(--secondary-color);
+.portion-emoji {
+    font-size: 24px;
+    margin-bottom: 5px;
 }
