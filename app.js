@@ -28,34 +28,39 @@ export function getDesiredCalories() {
 
 // Define updateSelectedFoodsDisplay function
 function updateSelectedFoodsDisplay() {
-    const container = document.getElementById('selected-foods-container');
-    container.innerHTML = '';
+  const container = document.getElementById('selected-foods-container');
+  container.innerHTML = '';
 
-    selectedFoods.forEach((food, index) => {
-        const foodBox = document.createElement('div');
-        foodBox.className = 'food-item';
-        
-        foodBox.innerHTML = `
-            <span>${food.emoji} ${food.name}</span>
-            <div class="portion-buttons">
-                <button onclick="updatePortionSize('${food.name}', -0.25)">-</button>
-                <span>${food.currentPortion}g</span>
-                <button onclick="updatePortionSize('${food.name}', 0.25)">+</button>
-            </div>
-            <button class="remove-food" onclick="removeFood(${index})">×</button>
-        `;
-        
-        container.appendChild(foodBox);
+  selectedFoods.forEach((food, index) => {
+    const foodBox = document.createElement('div');
+    foodBox.className = 'food-box';
+    
+    const foodName = document.createElement('h3');
+    foodName.textContent = food.name;
+    
+    const portionInput = document.createElement('input');
+    portionInput.type = 'number';
+    portionInput.value = food.portion;
+    portionInput.min = '0';
+    portionInput.addEventListener('change', (e) => {
+      updatePortionSize(index, parseFloat(e.target.value));
     });
-}
 
-function removeFood(index) {
-    selectedFoods.splice(index, 1);
-    updateSelectedFoodsDisplay();
-    calculateNutrition();
-}
+    const removeButton = document.createElement('button');
+    removeButton.className = 'remove-food';
+    removeButton.textContent = '×';
+    removeButton.addEventListener('click', () => {
+      selectedFoods.splice(index, 1);
+      updateSelectedFoodsDisplay();
+      calculateNutrition();
+    });
 
-window.removeFood = removeFood;
+    foodBox.appendChild(removeButton);
+    foodBox.appendChild(foodName);
+    foodBox.appendChild(portionInput);
+    container.appendChild(foodBox);
+  });
+}
 
 // Initialize the application
 function initApp() {
