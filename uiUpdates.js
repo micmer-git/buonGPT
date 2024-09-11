@@ -60,9 +60,9 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
     const categories = {
-        'Macronutrienti': ['carboidrati', 'proteine', 'grassi_totali', 'fibre', 'zuccheri'],
-        'Vitamine': ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'],
-        'Minerali': ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio']
+        'Macronutrienti': ['carboidrati', 'proteine', 'grassi_totali'],
+        'Vitamine': ['vitaminaA', 'vitaminaC', 'vitaminaD'],
+        'Minerali': ['calcio', 'ferro', 'magnesio']
     };
 
     Object.entries(categories).forEach(([category, nutrientList]) => {
@@ -75,9 +75,6 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
         const sliderContainer = document.createElement('div');
         sliderContainer.className = 'nutrient-slider';
-        sliderContainer.style.display = 'flex';
-        sliderContainer.style.overflowX = 'auto';
-        sliderContainer.style.padding = '10px';
 
         nutrientList.forEach(nutrient => {
             const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient]);

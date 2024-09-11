@@ -296,8 +296,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .nutrient-circle {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     background: var(--primary-color);
     box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
@@ -349,17 +349,18 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .nutrient-circle-label {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
     z-index: 1;
     text-align: center;
 }
 
 .nutrient-circle-value {
-    font-size: 10px;
+    font-size: 14px;
     z-index: 1;
     text-align: center;
+    margin-bottom: 5px;
 }
 
 .nutrient-circle-percentage {
@@ -367,14 +368,14 @@ input[type="range"]::-webkit-slider-thumb {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 14px;
+    font-size: 24px;
     font-weight: bold;
     z-index: 1;
 }
 
 .nutrient-circle-contributors {
-    font-size: 8px;
-    margin-top: 2px;
+    font-size: 12px;
+    margin-top: 5px;
     z-index: 1;
     text-align: center;
 }
@@ -443,4 +444,36 @@ input[type="range"]::-webkit-slider-thumb {
 .portion-emoji {
     font-size: 24px;
     margin-bottom: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.support-button, .website-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+}
+
+.support-button:hover, .website-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 7px 7px 15px var(--shadow-dark), -7px -7px 15px var(--shadow-light);
+}
+
+.support-button {
+    background-color: #3b7bbf;
+}
+
+.website-button {
+    background-color: #2ecc71;
 }
