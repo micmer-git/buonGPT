@@ -93,7 +93,7 @@ function calculateNutrition() {
         normalizedNutrients[nutrient] = totalNutrients[nutrient] * normalizationFactor;
     }
 
-    updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients);
+    updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients, nutrientSources);
 }
 
 export { calculateNutrition };
