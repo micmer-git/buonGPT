@@ -5,20 +5,25 @@ let currentCategoryIndex = 0;
 let currentFoodIndex = 0;
 
 function initCategorySlider() {
-    const categoriesContainer = document.getElementById('food-categories');
+    const categoriesContainer = document.querySelector('.category-buttons');
     categoriesContainer.innerHTML = '';
 
-    const sliderContainer = document.createElement('div');
-    sliderContainer.className = 'category-slider';
+    const categories = Object.keys(foodData);
+    categories.forEach(category => {
+        const categoryButton = createCategoryButton(category);
+        categoriesContainer.appendChild(categoryButton);
+    });
 
-    const leftArrow = createArrowButton('←', slideCategoriesLeft);
-    const rightArrow = createArrowButton('→', slideCategoriesRight);
+    const leftArrow = document.querySelector('#food-categories .slider-arrow.left');
+    const rightArrow = document.querySelector('#food-categories .slider-arrow.right');
 
-    sliderContainer.appendChild(leftArrow);
-    sliderContainer.appendChild(createCategoryButtons());
-    sliderContainer.appendChild(rightArrow);
+    leftArrow.addEventListener('click', () => scrollSlider(categoriesContainer, -1));
+    rightArrow.addEventListener('click', () => scrollSlider(categoriesContainer, 1));
+}
 
-    categoriesContainer.appendChild(sliderContainer);
+function scrollSlider(container, direction) {
+    const scrollAmount = container.offsetWidth;
+    container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
 }
 
 function createCategoryButtons() {

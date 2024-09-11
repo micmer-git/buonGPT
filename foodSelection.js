@@ -17,9 +17,9 @@ function initFoodCategories() {
 }
 
 function showFoodList(category) {
-    const foodListContainer = document.getElementById('food-list');
+    const foodListContainer = document.querySelector('.food-buttons');
     foodListContainer.innerHTML = '';
-    foodListContainer.classList.remove('hidden');
+    document.getElementById('food-list').classList.remove('hidden');
 
     foodData[category].forEach(food => {
         const foodButton = document.createElement('button');
@@ -28,6 +28,12 @@ function showFoodList(category) {
         foodButton.addEventListener('click', () => selectFood(food));
         foodListContainer.appendChild(foodButton);
     });
+
+    const leftArrow = document.querySelector('#food-list .slider-arrow.left');
+    const rightArrow = document.querySelector('#food-list .slider-arrow.right');
+
+    leftArrow.addEventListener('click', () => scrollSlider(foodListContainer, -1));
+    rightArrow.addEventListener('click', () => scrollSlider(foodListContainer, 1));
 }
 
 function selectFood(food) {

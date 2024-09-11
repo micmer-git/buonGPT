@@ -3,14 +3,13 @@ import { getNutrientUnit } from './utils.js';
 
 
 function updatePortionControls() {
-    const portionContainer = document.getElementById('portion-sliders');
+    const portionContainer = document.querySelector('.portion-sliders');
     portionContainer.innerHTML = '';
 
     selectedFoods.forEach(food => {
         const controlContainer = document.createElement('div');
         controlContainer.classList.add('portion-control');
 
-        // Round the portion size to 2 decimal places
         const roundedPortion = Math.round(food.currentPortion * 100) / 100;
         const portionMultiple = Math.round((roundedPortion / food.servingSize) * 100) / 100;
 
@@ -24,6 +23,12 @@ function updatePortionControls() {
         `;
         portionContainer.appendChild(controlContainer);
     });
+
+    const leftArrow = document.querySelector('#portion-sliders .slider-arrow.left');
+    const rightArrow = document.querySelector('#portion-sliders .slider-arrow.right');
+
+    leftArrow.addEventListener('click', () => scrollSlider(portionContainer, -1));
+    rightArrow.addEventListener('click', () => scrollSlider(portionContainer, 1));
 }
 
 function updatePortionSize(foodName, change) {
