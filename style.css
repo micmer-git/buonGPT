@@ -477,3 +477,18 @@ input[type="range"]::-webkit-slider-thumb {
 .website-button {
     background-color: #2ecc71;
 }
+
+.nutrient-category {
+    margin-bottom: 20px;
+}
+
+.nutrient-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.nutrient-circle {
+    margin: 5px;
+}

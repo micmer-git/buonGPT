@@ -5,12 +5,6 @@ function updatePortionControls() {
     const portionContainer = document.getElementById('portion-sliders');
     portionContainer.innerHTML = '';
 
-    const sliderContainer = document.createElement('div');
-    sliderContainer.classList.add('slider-container');
-    sliderContainer.style.display = 'flex';
-    sliderContainer.style.overflowX = 'auto';
-    sliderContainer.style.padding = '10px';
-
     selectedFoods.forEach(food => {
         const controlContainer = document.createElement('div');
         controlContainer.classList.add('portion-control');
@@ -25,12 +19,9 @@ function updatePortionControls() {
                 <span class="portion-value">${portionMultiple}x (${roundedPortion}g)</span>
                 <button onclick="updatePortionSize('${food.name}', 0.25)">+</button>
             </div>
-            <input type="range" class="portion-slider" min="0" max="${food.servingSize * 4}" step="${food.servingSize / 4}" value="${food.currentPortion}" oninput="updatePortionSizeSlider('${food.name}', this.value)">
         `;
-        sliderContainer.appendChild(controlContainer);
+        portionContainer.appendChild(controlContainer);
     });
-
-    portionContainer.appendChild(sliderContainer);
 }
 
 function updatePortionSize(foodName, change) {
