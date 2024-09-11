@@ -70,8 +70,12 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
             for (let j = i; j < i + 3 && j < nutrientList.length; j++) {
                 const nutrient = nutrientList[j];
-                const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient], nutrientSources[nutrient]);
-                rowContainer.appendChild(circle);
+                if (nutrients[nutrient] !== undefined && dailyNutrientNeeds[nutrient] !== undefined) {
+                    const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient], nutrientSources[nutrient]);
+                    rowContainer.appendChild(circle);
+                } else {
+                    console.warn(`Missing data for nutrient: ${nutrient}`);
+                }
             }
 
             categoryContainer.appendChild(rowContainer);
