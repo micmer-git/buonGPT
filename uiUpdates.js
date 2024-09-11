@@ -5,24 +5,32 @@ function updatePortionControls() {
     const portionContainer = document.getElementById('portion-sliders');
     portionContainer.innerHTML = '';
 
+    const sliderContainer = document.createElement('div');
+    sliderContainer.classList.add('slider-container');
+    sliderContainer.style.display = 'flex';
+    sliderContainer.style.overflowX = 'auto';
+    sliderContainer.style.padding = '10px';
+
     selectedFoods.forEach(food => {
         const controlContainer = document.createElement('div');
         controlContainer.classList.add('portion-control');
 
-        // Round the portion size to 2 decimal places
         const roundedPortion = Math.round(food.currentPortion * 100) / 100;
         const portionMultiple = Math.round((roundedPortion / food.servingSize) * 100) / 100;
 
         controlContainer.innerHTML = `
-            <label>${food.emoji} ${food.name}</label>
+            <div class="portion-label">${food.emoji} ${food.name}</div>
             <div class="portion-buttons">
                 <button onclick="updatePortionSize('${food.name}', -0.25)">-</button>
-                <span>${portionMultiple}x (${roundedPortion}g)</span>
+                <span class="portion-value">${portionMultiple}x (${roundedPortion}g)</span>
                 <button onclick="updatePortionSize('${food.name}', 0.25)">+</button>
             </div>
+            <input type="range" class="portion-slider" min="0" max="${food.servingSize * 4}" step="${food.servingSize / 4}" value="${food.currentPortion}" oninput="updatePortionSizeSlider('${food.name}', this.value)">
         `;
-        portionContainer.appendChild(controlContainer);
+        sliderContainer.appendChild(controlContainer);
     });
+
+    portionContainer.appendChild(sliderContainer);
 }
 
 function updatePortionSize(foodName, change) {
@@ -35,21 +43,49 @@ function updatePortionSize(foodName, change) {
     }
 }
 
+function updatePortionSizeSlider(foodName, newValue) {
+    const food = selectedFoods.find(f => f.name === foodName);
+    if (food) {
+        food.currentPortion = parseFloat(newValue);
+        updatePortionControls();
+        window.updateNutrition();
+    }
+}
+
+window.updatePortionSizeSlider = updatePortionSizeSlider;
 
 function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients) {
     const nutrientCirclesContainer = document.getElementById('nutrient-circles-container');
     nutrientCirclesContainer.innerHTML = '';
 
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
-    const nutrientList = [
-        'calories', 'carboidrati', 'proteine', 'grassi_totali', 'fibre', 'zuccheri',
-        'vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12',
-        'calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'
-    ];
+    const categories = {
+        'Macronutrienti': ['carboidrati', 'proteine', 'grassi_totali', 'fibre', 'zuccheri'],
+        'Vitamine': ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'],
+        'Minerali': ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio']
+    };
 
-    nutrientList.forEach(nutrient => {
-        const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient]);
-        nutrientCirclesContainer.appendChild(circle);
+    Object.entries(categories).forEach(([category, nutrientList]) => {
+        const categoryContainer = document.createElement('div');
+        categoryContainer.className = 'nutrient-category';
+        
+        const categoryTitle = document.createElement('h3');
+        categoryTitle.textContent = category;
+        categoryContainer.appendChild(categoryTitle);
+
+        const sliderContainer = document.createElement('div');
+        sliderContainer.className = 'nutrient-slider';
+        sliderContainer.style.display = 'flex';
+        sliderContainer.style.overflowX = 'auto';
+        sliderContainer.style.padding = '10px';
+
+        nutrientList.forEach(nutrient => {
+            const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient]);
+            sliderContainer.appendChild(circle);
+        });
+
+        categoryContainer.appendChild(sliderContainer);
+        nutrientCirclesContainer.appendChild(categoryContainer);
     });
 }
 
@@ -70,6 +106,9 @@ function createNutrientCircle(nutrient, value, target) {
         ? `${value.toFixed(1)} / ${target.toFixed(1)}`
         : 'N/A';
 
+    const percentageElement = document.createElement('div');
+    percentageElement.className = 'nutrient-circle-percentage';
+
     const contributors = document.createElement('div');
     contributors.className = 'nutrient-circle-contributors';
     contributors.id = `${nutrient}-foods`;
@@ -77,6 +116,7 @@ function createNutrientCircle(nutrient, value, target) {
     circle.appendChild(progress);
     circle.appendChild(label);
     circle.appendChild(valueElement);
+    circle.appendChild(percentageElement);
     circle.appendChild(contributors);
 
     updateNutrientCircleProgress(circle, value, target);
@@ -90,6 +130,9 @@ function updateNutrientCircleProgress(circle, value, target) {
         : 0;
     const progress = circle.querySelector('.nutrient-circle-progress');
     progress.style.setProperty('--progress', `${percentage * 3.6}deg`);
+    
+    const percentageElement = circle.querySelector('.nutrient-circle-percentage');
+    percentageElement.textContent = `${Math.round(percentage)}%`;
 }
 
 function updateDesiredCalories() {

@@ -361,3 +361,55 @@ input[type="range"]::-webkit-slider-thumb {
     margin-top: 5px;
     z-index: 1;
 }
+
+.portion-control {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.portion-label {
+    flex: 0 0 150px;
+    margin-right: 10px;
+}
+
+.portion-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.portion-buttons button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-size: 18px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.portion-value {
+    margin: 0 10px;
+}
+
+.portion-slider {
+    width: 150px;
+    -webkit-appearance: none;
+    background: var(--primary-color);
+    outline: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+}
+
+.portion-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--secondary-color);
+    cursor: pointer;
+    box-shadow: -100vw 0 0 100vw var(--secondary-color);
+}
