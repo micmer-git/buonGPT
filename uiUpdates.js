@@ -38,37 +38,55 @@ function updatePortionSize(foodName, change) {
 
 
 function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients) {
-    const totalCaloriesElement = document.getElementById('total-calories');
-    if (totalCaloriesElement) {
-        totalCaloriesElement.textContent = `Calorie Totali: ${Math.round(totalCalories)} kcal`;
-    }
+    const nutrientCirclesContainer = document.getElementById('nutrient-circles-container');
+    nutrientCirclesContainer.innerHTML = '';
 
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
-    updateNutrientTable('macronutrients', ['carboidrati', 'proteine', 'grassi_totali', 'fibre', 'zuccheri'], nutrients);
-    updateNutrientTable('vitamins', ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'], nutrients);
-    updateNutrientTable('minerals', ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'], nutrients);
+    const nutrientList = [
+        'calories', 'carboidrati', 'proteine', 'grassi_totali', 'fibre', 'zuccheri',
+        'vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12',
+        'calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio'
+    ];
+
+    nutrientList.forEach(nutrient => {
+        const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient]);
+        nutrientCirclesContainer.appendChild(circle);
+    });
 }
 
-function updateNutrientTable(tableId, nutrientList, nutrients) {
-    const table = document.getElementById(tableId);
-    if (table) {
-        const tbody = table.querySelector('tbody') || table.createTBody();
-        tbody.innerHTML = '';
-        nutrientList.forEach(nutrient => {
-            const row = tbody.insertRow();
-            row.innerHTML = `
-                <td>${nutrient}</td>
-                <td>
-                    <div class="progress-bar">
-                        <div class="progress" id="${nutrient}-progress"></div>
-                        <span class="progress-text" id="${nutrient}-percentage"></span>
-                    </div>
-                </td>
-                <td id="${nutrient}-value" data-target="${nutrient}"></td>
-                <td colspan="2" class="contributors" id="${nutrient}-foods"></td>
-            `;
-        });
-    }
+function createNutrientCircle(nutrient, value, target) {
+    const circle = document.createElement('div');
+    circle.className = 'nutrient-circle';
+
+    const progress = document.createElement('div');
+    progress.className = 'nutrient-circle-progress';
+
+    const label = document.createElement('div');
+    label.className = 'nutrient-circle-label';
+    label.textContent = nutrient;
+
+    const valueElement = document.createElement('div');
+    valueElement.className = 'nutrient-circle-value';
+    valueElement.textContent = `${value.toFixed(1)} / ${target.toFixed(1)}`;
+
+    const contributors = document.createElement('div');
+    contributors.className = 'nutrient-circle-contributors';
+    contributors.id = `${nutrient}-foods`;
+
+    circle.appendChild(progress);
+    circle.appendChild(label);
+    circle.appendChild(valueElement);
+    circle.appendChild(contributors);
+
+    updateNutrientCircleProgress(circle, value, target);
+
+    return circle;
+}
+
+function updateNutrientCircleProgress(circle, value, target) {
+    const percentage = Math.min((value / target) * 100, 100);
+    const progress = circle.querySelector('.nutrient-circle-progress');
+    progress.style.setProperty('--progress', `${percentage * 3.6}deg`);
 }
 
 function updateDesiredCalories() {
@@ -103,23 +121,21 @@ function initNutrientToggles() {
 }
 
 function updateNutrientProgress(nutrientId, currentValue, targetValue, sources) {
-    const progressElement = document.getElementById(`${nutrientId}-progress`);
-    const percentageElement = document.getElementById(`${nutrientId}-percentage`);
-    const valueElement = document.getElementById(`${nutrientId}-value`);
-    const sourcesElement = document.getElementById(`${nutrientId}-foods`);
+    const circle = document.querySelector(`.nutrient-circle:has(.nutrient-circle-label:contains('${nutrientId}'))`);
+    if (circle) {
+        const valueElement = circle.querySelector('.nutrient-circle-value');
+        const sourcesElement = circle.querySelector('.nutrient-circle-contributors');
 
-    const percentage = Math.min((currentValue / targetValue) * 100, 100);
+        valueElement.textContent = `${currentValue.toFixed(1)} / ${targetValue.toFixed(1)}`;
+        updateNutrientCircleProgress(circle, currentValue, targetValue);
 
-    progressElement.style.width = `${percentage}%`;
-    percentageElement.textContent = `${percentage.toFixed(1)}%`;
-    valueElement.textContent = `${currentValue.toFixed(1)} / ${targetValue.toFixed(1)}`;
-
-    if (sourcesElement && sources && sources.length > 0) {
-        sourcesElement.innerHTML = sources.slice(0, 3).map(source =>
-            `<span class="food-contributor" title="${source.name}">
-                ${source.emoji} ${source.amount.toFixed(1)}
-            </span>`
-        ).join('');
+        if (sourcesElement && sources && sources.length > 0) {
+            sourcesElement.innerHTML = sources.slice(0, 3).map(source =>
+                `<span class="food-contributor" title="${source.name}">
+                    ${source.emoji} ${source.amount.toFixed(1)}
+                </span>`
+            ).join('');
+        }
     }
 }
 
