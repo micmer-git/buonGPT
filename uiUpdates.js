@@ -48,17 +48,20 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
     ];
 
     nutrientList.forEach(nutrient => {
-        const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient]);
+        const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient], nutrientSources[nutrient]);
         nutrientCirclesContainer.appendChild(circle);
     });
 }
 
-function createNutrientCircle(nutrient, value, target) {
+function createNutrientCircle(nutrient, value, target, contributors) {
     const circle = document.createElement('div');
     circle.className = 'nutrient-circle';
 
     const progress = document.createElement('div');
     progress.className = 'nutrient-circle-progress';
+
+    const percentage = document.createElement('div');
+    percentage.className = 'nutrient-circle-percentage';
 
     const label = document.createElement('div');
     label.className = 'nutrient-circle-label';
@@ -70,16 +73,17 @@ function createNutrientCircle(nutrient, value, target) {
         ? `${value.toFixed(1)} / ${target.toFixed(1)}`
         : 'N/A';
 
-    const contributors = document.createElement('div');
-    contributors.className = 'nutrient-circle-contributors';
-    contributors.id = `${nutrient}-foods`;
+    const contributorsElement = document.createElement('div');
+    contributorsElement.className = 'nutrient-circle-contributors';
 
     circle.appendChild(progress);
+    circle.appendChild(percentage);
     circle.appendChild(label);
     circle.appendChild(valueElement);
-    circle.appendChild(contributors);
+    circle.appendChild(contributorsElement);
 
     updateNutrientCircleProgress(circle, value, target);
+    updateNutrientCircleContributors(contributorsElement, contributors);
 
     return circle;
 }
@@ -90,6 +94,20 @@ function updateNutrientCircleProgress(circle, value, target) {
         : 0;
     const progress = circle.querySelector('.nutrient-circle-progress');
     progress.style.setProperty('--progress', `${percentage * 3.6}deg`);
+    
+    const percentageElement = circle.querySelector('.nutrient-circle-percentage');
+    percentageElement.textContent = `${Math.round(percentage)}%`;
+}
+
+function updateNutrientCircleContributors(element, contributors) {
+    element.innerHTML = '';
+    if (contributors && contributors.length > 0) {
+        contributors.slice(0, 3).forEach(contributor => {
+            const contributorElement = document.createElement('div');
+            contributorElement.textContent = `${contributor.emoji} ${contributor.name}: ${contributor.amount.toFixed(1)}`;
+            element.appendChild(contributorElement);
+        });
+    }
 }
 
 function updateDesiredCalories() {

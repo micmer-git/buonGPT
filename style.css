@@ -307,6 +307,7 @@ input[type="range"]::-webkit-slider-thumb {
     align-items: center;
     margin: 10px;
     position: relative;
+    overflow: hidden;
 }
 
 .nutrient-circle-progress {
@@ -337,19 +338,26 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 14px;
     font-weight: bold;
     margin-bottom: 5px;
+    z-index: 1;
 }
 
 .nutrient-circle-value {
     font-size: 12px;
+    z-index: 1;
+}
+
+.nutrient-circle-percentage {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 1;
 }
 
 .nutrient-circle-contributors {
     font-size: 10px;
     margin-top: 5px;
-}
-
-#nutrient-circles-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    z-index: 1;
 }

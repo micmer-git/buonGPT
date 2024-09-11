@@ -3,7 +3,7 @@ import { dailyNutrientNeeds } from './utils.js';
 import { updateNutrientProgress } from './uiUpdates.js';
 
 function calculateNutrition() {
-    const desiredCalories = getDesiredCalories();
+    const desiredCalories = 2000;
     let totalCalories = 0;
     let totalNutrients = {
         proteine: 0,
