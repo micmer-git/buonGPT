@@ -59,18 +59,23 @@ window.removeFood = removeFood;
 
 // Initialize the application
 function initApp() {
-    initCategorySlider();
-    initFoodCategories();
-    updateSelectedFoodsDisplay();
+    initCategorySlider();    
+    const container = document.getElementById('selected-foods-container');
+    if (container) {
+        updateSelectedFoodsDisplay();
+    } else {
+        console.warn('Selected foods container not found');
+    }
     
     const desiredCaloriesInput = document.getElementById('desired-calories');
     if (desiredCaloriesInput) {
         desiredCaloriesInput.value = desiredCalories;
-        desiredCaloriesInput.addEventListener('change', updateDesiredCalories);
+        desiredCaloriesInput.addEventListener('change', () => {
+            setDesiredCalories(parseInt(desiredCaloriesInput.value) || 2000);
+        });
+    } else {
+        console.warn('Desired calories input not found');
     }
-
-    initNutrientToggles();
-    calculateNutrition();
 }
 
 // Call initApp when the page loads
