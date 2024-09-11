@@ -45,7 +45,7 @@ function updatePortionSizeSlider(foodName, newValue) {
 
 window.updatePortionSizeSlider = updatePortionSizeSlider;
 
-function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients) {
+function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrients, nutrientSources) {
     const nutrientCirclesContainer = document.getElementById('nutrient-circles-container');
     nutrientCirclesContainer.innerHTML = '';
 
@@ -70,7 +70,7 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
             for (let j = i; j < i + 3 && j < nutrientList.length; j++) {
                 const nutrient = nutrientList[j];
-                const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient]);
+                const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient], nutrientSources[nutrient]);
                 rowContainer.appendChild(circle);
             }
 
@@ -81,7 +81,7 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
     });
 }
 
-function createNutrientCircle(nutrient, value, target) {
+function createNutrientCircle(nutrient, value, target, sources) {
     const circle = document.createElement('div');
     circle.className = 'nutrient-circle';
 
@@ -90,7 +90,7 @@ function createNutrientCircle(nutrient, value, target) {
 
     const label = document.createElement('div');
     label.className = 'nutrient-circle-label';
-    label.textContent = nutrient;
+    label.textContent = nutrient.replace(/_/g, ' ').toUpperCase();
 
     const valueElement = document.createElement('div');
     valueElement.className = 'nutrient-circle-value';
@@ -100,10 +100,15 @@ function createNutrientCircle(nutrient, value, target) {
 
     const percentageElement = document.createElement('div');
     percentageElement.className = 'nutrient-circle-percentage';
+    percentageElement.style.fontSize = '16px';
 
     const contributors = document.createElement('div');
     contributors.className = 'nutrient-circle-contributors';
-    contributors.id = `${nutrient}-foods`;
+    if (sources && sources.length > 0) {
+        contributors.innerHTML = sources.slice(0, 3).map(source =>
+            `${source.emoji} ${source.amount.toFixed(1)}`
+        ).join(' ');
+    }
 
     circle.appendChild(progress);
     circle.appendChild(label);
