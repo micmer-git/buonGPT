@@ -479,16 +479,21 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .nutrient-category {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.nutrient-category h3 {
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 .nutrient-row {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .nutrient-circle {
-    margin: 5px;
+    margin: 0 10px 20px;
 }

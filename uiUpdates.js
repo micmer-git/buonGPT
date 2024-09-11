@@ -51,9 +51,9 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
     const categories = {
-        'Macronutrienti': ['carboidrati', 'proteine', 'grassi_totali'],
-        'Vitamine': ['vitaminaA', 'vitaminaC', 'vitaminaD'],
-        'Minerali': ['calcio', 'ferro', 'magnesio']
+        'Macronutrienti': ['carboidrati', 'proteine', 'grassi_totali', 'fibre', 'zuccheri', 'grassi_saturi', 'grassi_insaturi'],
+        'Vitamine': ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'],
+        'Minerali': ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio']
     };
 
     Object.entries(categories).forEach(([category, nutrientList]) => {
@@ -64,15 +64,19 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
         categoryTitle.textContent = category;
         categoryContainer.appendChild(categoryTitle);
 
-        const sliderContainer = document.createElement('div');
-        sliderContainer.className = 'nutrient-slider';
+        for (let i = 0; i < nutrientList.length; i += 3) {
+            const rowContainer = document.createElement('div');
+            rowContainer.className = 'nutrient-row';
 
-        nutrientList.forEach(nutrient => {
-            const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient]);
-            sliderContainer.appendChild(circle);
-        });
+            for (let j = i; j < i + 3 && j < nutrientList.length; j++) {
+                const nutrient = nutrientList[j];
+                const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient]);
+                rowContainer.appendChild(circle);
+            }
 
-        categoryContainer.appendChild(sliderContainer);
+            categoryContainer.appendChild(rowContainer);
+        }
+
         nutrientCirclesContainer.appendChild(categoryContainer);
     });
 }
