@@ -17,9 +17,9 @@ function initFoodCategories() {
 }
 
 function showFoodList(category) {
-    const foodListContainer = document.querySelector('.food-buttons');
+    const foodListContainer = document.getElementById('food-list');
     foodListContainer.innerHTML = '';
-    document.getElementById('food-list').classList.remove('hidden');
+    foodListContainer.classList.remove('hidden');
 
     foodData[category].forEach(food => {
         const foodButton = createFoodButton(food);
