@@ -14,7 +14,7 @@ function updatePortionControls() {
         const portionMultiple = Math.round((roundedPortion / food.servingSize) * 100) / 100;
 
         controlContainer.innerHTML = `
-            <label>${food.emoji} ${food.name}</label>
+            <span>${food.emoji} ${food.name}</span>
             <div class="portion-buttons">
                 <button onclick="updatePortionSize('${food.name}', -0.25)">-</button>
                 <span>${portionMultiple}x (${roundedPortion}g)</span>
@@ -23,12 +23,6 @@ function updatePortionControls() {
         `;
         portionContainer.appendChild(controlContainer);
     });
-
-    const leftArrow = document.querySelector('#portion-sliders .slider-arrow.left');
-    const rightArrow = document.querySelector('#portion-sliders .slider-arrow.right');
-
-    leftArrow.addEventListener('click', () => scrollSlider(portionContainer, -1));
-    rightArrow.addEventListener('click', () => scrollSlider(portionContainer, 1));
 }
 
 function updatePortionSize(foodName, change) {
