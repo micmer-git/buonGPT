@@ -307,3 +307,23 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 15px;
     transition: width 0.3s ease;
 }
+
+.portion-buttons button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: none;
+    box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.portion-buttons button:hover {
+    box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
+}

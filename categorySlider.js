@@ -9,16 +9,23 @@ function initCategorySlider() {
     categoriesContainer.innerHTML = '';
 
     const categories = Object.keys(foodData);
-    categories.forEach(category => {
-        const categoryButton = createCategoryButton(category);
+    for (let i = 0; i < Math.min(3, categories.length); i++) {
+        const categoryButton = createCategoryButton(categories[i]);
         categoriesContainer.appendChild(categoryButton);
-    });
+    }
 
     const leftArrow = document.querySelector('#food-categories .slider-arrow.left');
     const rightArrow = document.querySelector('#food-categories .slider-arrow.right');
 
-    leftArrow.addEventListener('click', () => scrollSlider(categoriesContainer, -1));
-    rightArrow.addEventListener('click', () => scrollSlider(categoriesContainer, 1));
+    let currentIndex = 0;
+    leftArrow.addEventListener('click', () => {
+        currentIndex = Math.max(0, currentIndex - 1);
+        updateCategoryButtons(currentIndex);
+    });
+    rightArrow.addEventListener('click', () => {
+        currentIndex = Math.min(categories.length - 3, currentIndex + 1);
+        updateCategoryButtons(currentIndex);
+    });
 }
 
 function scrollSlider(container, direction) {
@@ -69,12 +76,13 @@ function slideCategoriesRight() {
     updateCategoryButtons();
 }
 
-function updateCategoryButtons() {
-    const buttonContainer = document.querySelector('.category-button-container');
-    buttonContainer.innerHTML = '';
-    const newButtons = createCategoryButtons();
-    while (newButtons.firstChild) {
-        buttonContainer.appendChild(newButtons.firstChild);
+function updateCategoryButtons(startIndex) {
+    const categoriesContainer = document.querySelector('.category-buttons');
+    categoriesContainer.innerHTML = '';
+    const categories = Object.keys(foodData);
+    for (let i = startIndex; i < Math.min(startIndex + 3, categories.length); i++) {
+        const categoryButton = createCategoryButton(categories[i]);
+        categoriesContainer.appendChild(categoryButton);
     }
 }
 
