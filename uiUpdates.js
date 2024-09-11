@@ -66,7 +66,9 @@ function createNutrientCircle(nutrient, value, target) {
 
     const valueElement = document.createElement('div');
     valueElement.className = 'nutrient-circle-value';
-    valueElement.textContent = `${value.toFixed(1)} / ${target.toFixed(1)}`;
+    valueElement.textContent = value !== undefined && target !== undefined
+        ? `${value.toFixed(1)} / ${target.toFixed(1)}`
+        : 'N/A';
 
     const contributors = document.createElement('div');
     contributors.className = 'nutrient-circle-contributors';
@@ -83,7 +85,9 @@ function createNutrientCircle(nutrient, value, target) {
 }
 
 function updateNutrientCircleProgress(circle, value, target) {
-    const percentage = Math.min((value / target) * 100, 100);
+    const percentage = value !== undefined && target !== undefined
+        ? Math.min((value / target) * 100, 100)
+        : 0;
     const progress = circle.querySelector('.nutrient-circle-progress');
     progress.style.setProperty('--progress', `${percentage * 3.6}deg`);
 }
