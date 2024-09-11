@@ -10,6 +10,7 @@ function calculateNutrition() {
         carboidrati: 0,
         grassi_totali: 0,
         fibre: 0,
+        zuccheri: 0,
         grassi_saturi: 0,
         grassi_insaturi: 0,
         vitaminaA: 0,
@@ -67,6 +68,7 @@ function calculateNutrition() {
     updateNutrientProgressSafely('protein', totalNutrients.proteine, dailyNutrientNeeds.proteine, nutrientSources['proteine']);
     updateNutrientProgressSafely('carbs', totalNutrients.carboidrati, dailyNutrientNeeds.carboidrati, nutrientSources['carboidrati']);
     updateNutrientProgressSafely('fat', totalNutrients.grassi_totali, dailyNutrientNeeds.grassi_totali, nutrientSources['grassi_totali']);
+    updateNutrientProgressSafely('zuccheri', totalNutrients.zuccheri, dailyNutrientNeeds.zuccheri, nutrientSources['zuccheri']);
     updateNutrientProgressSafely('fiber', totalNutrients.fibre, dailyNutrientNeeds.fibre, nutrientSources['fibre']);
     updateNutrientProgressSafely('saturated-fat', totalNutrients.grassi_saturi, dailyNutrientNeeds.grassi_saturi, nutrientSources['grassi_saturi']);
     updateNutrientProgressSafely('unsaturated-fat', totalNutrients.grassi_insaturi, dailyNutrientNeeds.grassi_insaturi, nutrientSources['grassi_insaturi']);
