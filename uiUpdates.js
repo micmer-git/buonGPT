@@ -51,12 +51,24 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
 
     const nutrients = currentView === 'total' ? totalNutrients : normalizedNutrients;
     const categories = {
-        'Macronutrienti': ['carboidrati', 'proteine', 'grassi_totali', 'fibre', 'zuccheri', 'grassi_saturi', 'grassi_insaturi'],
-        'Vitamine': ['vitaminaA', 'vitaminaC', 'vitaminaD', 'vitaminaE', 'vitaminaK', 'vitaminaB12'],
-        'Minerali': ['calcio', 'ferro', 'magnesio', 'fosforo', 'potassio', 'zinco', 'selenio']
+        'Macronutrienti': [
+            ['calories', 'proteine'],
+            ['carboidrati', 'zuccheri', 'fibre'],
+            ['grassi_totali', 'grassi_insaturi', 'grassi_saturi'],
+            ['omega3', 'omega6']
+        ],
+        'Vitamine': [
+            ['vitaminaA', 'vitaminaC', 'vitaminaD'],
+            ['vitaminaE', 'vitaminaK', 'vitaminaB12']
+        ],
+        'Minerali': [
+            ['calcio', 'ferro', 'magnesio'],
+            ['fosforo', 'potassio', 'zinco'],
+            ['selenio']
+        ]
     };
 
-    Object.entries(categories).forEach(([category, nutrientList]) => {
+    Object.entries(categories).forEach(([category, nutrientGroups]) => {
         const categoryContainer = document.createElement('div');
         categoryContainer.className = 'nutrient-category';
         
@@ -64,22 +76,27 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
         categoryTitle.textContent = category;
         categoryContainer.appendChild(categoryTitle);
 
-        for (let i = 0; i < nutrientList.length; i += 3) {
+        nutrientGroups.forEach(group => {
             const rowContainer = document.createElement('div');
             rowContainer.className = 'nutrient-row';
 
-            for (let j = i; j < i + 3 && j < nutrientList.length; j++) {
-                const nutrient = nutrientList[j];
-                if (nutrients[nutrient] !== undefined && dailyNutrientNeeds[nutrient] !== undefined) {
-                    const circle = createNutrientCircle(nutrient, nutrients[nutrient], dailyNutrientNeeds[nutrient], nutrientSources[nutrient]);
-                    rowContainer.appendChild(circle);
-                } else {
-                    console.warn(`Missing data for nutrient: ${nutrient}`);
-                }
-            }
+            group.forEach(nutrient => {
+                const circleContainer = document.createElement('div');
+                circleContainer.className = 'nutrient-circle';
+
+                const nutrientName = document.createElement('h4');
+                nutrientName.textContent = nutrient === 'calories' ? 'Calorie' : nutrient;
+                circleContainer.appendChild(nutrientName);
+
+                const nutrientValue = document.createElement('p');
+                nutrientValue.textContent = `${nutrients[nutrient].toFixed(1)} ${getNutrientUnit(nutrient)}`;
+                circleContainer.appendChild(nutrientValue);
+
+                rowContainer.appendChild(circleContainer);
+            });
 
             categoryContainer.appendChild(rowContainer);
-        }
+        });
 
         nutrientCirclesContainer.appendChild(categoryContainer);
     });

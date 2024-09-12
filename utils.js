@@ -25,12 +25,15 @@ const dailyNutrientNeeds = {
 
 
 function getNutrientUnit(nutrient) {
-    // Definisci le unità appropriate per ciascun nutriente
     const unitMap = {
+        calories: 'kcal',
         carboidrati: 'g', proteine: 'g', grassi_totali: 'g',
+        fibre: 'g', zuccheri: 'g', grassi_saturi: 'g', grassi_insaturi: 'g',
+        omega3: 'g', omega6: 'g',
         vitaminaA: 'µg', vitaminaC: 'mg', vitaminaD: 'µg',
-        calcio: 'mg', ferro: 'mg', magnesio: 'mg'
-        // Aggiungi altre unità secondo necessità
+        vitaminaE: 'mg', vitaminaK: 'µg', vitaminaB12: 'µg',
+        calcio: 'mg', ferro: 'mg', magnesio: 'mg',
+        fosforo: 'mg', potassio: 'mg', zinco: 'mg', selenio: 'µg'
     };
     return unitMap[nutrient] || '';
 }
