@@ -89,7 +89,13 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
                 circleContainer.appendChild(nutrientName);
 
                 const nutrientValue = document.createElement('p');
-                nutrientValue.textContent = `${nutrients[nutrient].toFixed(1)} ${getNutrientUnit(nutrient)}`;
+                if (nutrient === 'calories') {
+                    nutrientValue.textContent = `${totalCalories.toFixed(1)} kcal`;
+                } else if (nutrients[nutrient] !== undefined) {
+                    nutrientValue.textContent = `${nutrients[nutrient].toFixed(1)} ${getNutrientUnit(nutrient)}`;
+                } else {
+                    nutrientValue.textContent = 'N/A';
+                }
                 circleContainer.appendChild(nutrientValue);
 
                 rowContainer.appendChild(circleContainer);
@@ -106,28 +112,15 @@ function createNutrientCircle(nutrient, value, target, sources) {
     const circle = document.createElement('div');
     circle.className = 'nutrient-circle';
 
-    const arcContainer = document.createElement('div');
-    arcContainer.className = 'nutrient-arc-container';
-
-    const arc = document.createElement('div');
-    arc.className = 'nutrient-arc';
-
-    const percentage = value !== undefined && target !== undefined
-        ? Math.min((value / target) * 100, 100)
-        : 0;
-
-    arc.style.setProperty('--progress', `${percentage}%`);
-
-    const percentageText = document.createElement('div');
-    percentageText.className = 'nutrient-percentage';
-    percentageText.textContent = `${Math.round(percentage)}%`;
-
-    arcContainer.appendChild(arc);
-    arcContainer.appendChild(percentageText);
+    const progress = document.createElement('div');
+    progress.className = 'nutrient-circle-progress';
 
     const label = document.createElement('div');
     label.className = 'nutrient-circle-label';
     label.textContent = nutrient.replace(/_/g, ' ').toUpperCase();
+
+    const percentageElement = document.createElement('div');
+    percentageElement.className = 'nutrient-circle-percentage';
 
     const valueElement = document.createElement('div');
     valueElement.className = 'nutrient-circle-value';
@@ -139,16 +132,17 @@ function createNutrientCircle(nutrient, value, target, sources) {
     contributors.className = 'nutrient-circle-contributors';
     if (sources && sources.length > 0) {
         contributors.innerHTML = sources.slice(0, 3).map(source =>
-            `<span class="food-contributor" title="${source.name}">
-                ${source.emoji} ${source.amount.toFixed(1)}
-            </span>`
-        ).join('');
+            `${source.emoji} ${source.amount.toFixed(1)}`
+        ).join(' ');
     }
 
-    circle.appendChild(arcContainer);
+    circle.appendChild(progress);
     circle.appendChild(label);
+    circle.appendChild(percentageElement);
     circle.appendChild(valueElement);
     circle.appendChild(contributors);
+
+    updateNutrientCircleProgress(circle, value, target);
 
     return circle;
 }
