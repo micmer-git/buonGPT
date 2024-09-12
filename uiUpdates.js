@@ -89,7 +89,9 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
                 circleContainer.appendChild(nutrientName);
 
                 const nutrientValue = document.createElement('p');
-                nutrientValue.textContent = `${nutrients[nutrient].toFixed(1)} ${getNutrientUnit(nutrient)}`;
+                // Add a check for undefined values
+                const value = nutrients[nutrient];
+                nutrientValue.textContent = value !== undefined ? `${value.toFixed(1)} ${getNutrientUnit(nutrient)}` : 'N/A';
                 circleContainer.appendChild(nutrientValue);
 
                 rowContainer.appendChild(circleContainer);
