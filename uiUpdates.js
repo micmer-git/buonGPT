@@ -89,7 +89,13 @@ function updateNutritionSummary(totalCalories, totalNutrients, normalizedNutrien
                 circleContainer.appendChild(nutrientName);
 
                 const nutrientValue = document.createElement('p');
-                nutrientValue.textContent = `${nutrients[nutrient].toFixed(1)} ${getNutrientUnit(nutrient)}`;
+                if (nutrient === 'calories') {
+                    nutrientValue.textContent = `${totalCalories.toFixed(1)} kcal`;
+                } else if (nutrients[nutrient] !== undefined) {
+                    nutrientValue.textContent = `${nutrients[nutrient].toFixed(1)} ${getNutrientUnit(nutrient)}`;
+                } else {
+                    nutrientValue.textContent = 'N/A';
+                }
                 circleContainer.appendChild(nutrientValue);
 
                 rowContainer.appendChild(circleContainer);
